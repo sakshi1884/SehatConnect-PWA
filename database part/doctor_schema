@@ -1,0 +1,15 @@
+const mongoose = require("mongoose");
+
+const DoctorSchema = new mongoose.Schema({
+  fullName: { type: String, required: true },
+  photoUrl: { type: String },     
+  email: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  mobileNo: { type: String },
+  specialization: { type: String, required: true },
+  age: { type: Number },
+  address: { type: String },
+  joinedDate: { type: Date, default: Date.now }
+}, { timestamps: true });
+
+module.exports = mongoose.model("Doctor", DoctorSchema);

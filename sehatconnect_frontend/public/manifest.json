@@ -1,0 +1,21 @@
+{
+  "short_name": "SehatConnect",
+  "name": "SehatConnect - Healthcare PWA",
+  "icons": [
+    
+    {
+      "src": "src/assets/images/logo-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "src/assets/images/logo-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#1A54B5",
+  "background_color": "#ffffff"
+}

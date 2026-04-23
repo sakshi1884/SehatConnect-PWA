@@ -1,0 +1,112 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4rem 6%;
+  background-color: #ffffff;
+  min-height: 90vh;
+  gap: 3rem;
+  box-sizing: border-box;
+}
+
+/* LEFT */
+.hero-content {
+  flex: 1;
+}
+
+.hero-content h1 {
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: #222;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* BUTTONS FIX */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* IMPORTANT: remove global width conflicts */
+.hero-buttons .primary,
+.hero-buttons .secondary,
+.hero-buttons .button {
+  width: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+/* Primary button */
+.hero-buttons .primary {
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+}
+
+.hero-buttons .primary:hover {
+  background-color: #1AB586;
+}
+
+/* Link button */
+.hero-buttons .button {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.hero-buttons .button:hover {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+/* IMAGE */
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  transition: 0.5s ease;
+}
+
+.hero-image img:hover {
+  transform: scale(1.05);
+}
+
+/* RESPONSIVE FIX */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 3rem 1.5rem;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-image {
+    margin-top: 2rem;
+  }
+}

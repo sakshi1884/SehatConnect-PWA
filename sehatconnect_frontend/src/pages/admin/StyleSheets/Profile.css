@@ -1,0 +1,137 @@
+/* ===== Main Container ===== */
+/* 🚨 GLOBAL FIX */
+#root, body, html {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* ✅ CONTENT SHOULD TAKE FULL WIDTH */
+.content {
+  flex: 1;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== Profile Card Wrapper ===== */
+.profile-card {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+
+  /* ✅ FIX HERE */
+  width: 100%;
+  max-width: 900px;   /* control size cleanly */
+  margin: 2rem auto;  /* center properly */
+
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Profile Image Section ===== */
+.profile-img-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid #0d47a1;
+  transition: transform 0.3s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Profile Details ===== */
+.profile-details {
+  flex: 1;
+  text-align: left;
+}
+
+.profile-details input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #b0bec5;
+  font-size: 1rem;
+}
+
+.profile-details input:focus {
+  border-color: #0d47a1;
+  box-shadow: 0 0 5px rgba(13, 71, 161, 0.4);
+  outline: none;
+}
+
+/* ===== Save Button ===== */
+.save-btn {
+  margin-top: 1.5rem;
+  background-color: #0d47a1;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.save-btn:hover {
+  background-color: #1565c0;
+  transform: translateY(-3px);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .profile-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-details {
+    text-align: center;
+  }
+
+  .profile-details input {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .profile-card {
+    padding: 1.5rem;
+  }
+}

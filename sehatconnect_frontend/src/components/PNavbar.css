@@ -1,0 +1,160 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #1e3a8a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* ===== LEFT ===== */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* .menu-icon {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  display: none; /* hidden on desktop */
+ */
+ .menu-icon {
+  display: block;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.navbar-logo {
+  font-family: "Inika", serif;
+  font-size: 22px;
+  margin: 0;
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== SEARCH ===== */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 25px;
+  padding: 5px 10px;
+  flex: 1;
+  max-width: 400px;
+  margin: 0 20px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+}
+
+/* ===== RIGHT LINKS ===== */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-right a {
+  color: white !important;
+  text-decoration: none;
+  font-weight: 450;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.navbar-right a:hover {
+  text-decoration: underline;
+}
+
+/* ========================= */
+/*        RESPONSIVE         */
+/* ========================= */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  .search-bar {
+    max-width: 250px;
+  }
+
+  .navbar-right a {
+    font-size: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block; /* show hamburger */
+  }
+
+  .search-bar {
+    display: none; /* hide search or move into menu */
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    padding: 12px 16px;
+  }
+
+  .navbar-right {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #1e3a8a;
+    flex-direction: column;
+    width: 100%;
+    display: none; /* hidden by default */
+    padding: 10px 0;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .navbar-right.active {
+    display: flex; /* toggle this via JS */
+  }
+
+  .navbar-right a {
+    padding: 10px;
+    font-size: 16px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .navbar-logo {
+    font-size: 18px;
+  }
+
+  .menu-icon {
+    font-size: 24px;
+  }
+}

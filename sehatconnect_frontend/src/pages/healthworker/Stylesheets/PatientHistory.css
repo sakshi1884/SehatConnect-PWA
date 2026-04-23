@@ -1,0 +1,171 @@
+.details-container {
+  padding: 20px 16px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* HEADER */
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.details-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.details-header p {
+  font-size: 14px;
+  color: #555;
+}
+.right-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hw-mini {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+/* ACTION BUTTONS */
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header-actions button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* CHECKUP SECTION */
+.checkup-section {
+  margin-top: 20px;
+}
+
+/* CARD */
+.checkup-card {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* HEADER INSIDE CARD */
+.checkup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* METRICS */
+.checkup-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* RISK BADGES */
+.risk {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: white;
+}
+
+.risk.normal {
+  background-color: #27ae60;
+}
+
+.risk.high {
+  background-color: #f39c12;
+}
+
+/* EMPTY STATE */
+.no-data {
+  text-align: center;
+  margin-top: 40px;
+  color: #777;
+  font-size: 14px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* ========================= */
+/* 📱 MOBILE OPTIMIZATION */
+/* ========================= */
+
+@media (max-width: 768px) {
+  .details-container {
+    padding: 15px 12px;
+  }
+
+  .details-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .header-actions button {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .checkup-card {
+    padding: 12px;
+  }
+
+  .checkup-metrics {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+/* ========================= */
+/* 📲 SMALL DEVICES */
+/* ========================= */
+
+@media (max-width: 480px) {
+  .details-header h2 {
+    font-size: 18px;
+  }
+
+  .header-actions button {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  .checkup-header {
+    font-size: 12px;
+  }
+
+  .checkup-metrics {
+    font-size: 12px;
+  }
+}

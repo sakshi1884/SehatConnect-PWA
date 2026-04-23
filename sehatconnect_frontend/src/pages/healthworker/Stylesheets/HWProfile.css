@@ -1,0 +1,239 @@
+.hw-layout {
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.hw-profile-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* =========================
+   PROFILE CARD
+========================= */
+.hw-profile-card {
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* =========================
+   PROFILE PHOTO
+========================= */
+.profile-photo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #1abc9c;
+}
+
+.photo-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #eef2f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: #7f8c8d;
+}
+
+/* =========================
+   TEXT DETAILS
+========================= */
+.profile-details h2 {
+  margin-top: 10px;
+  color: #2c3e50;
+  font-size: 22px;
+}
+
+.profile-details p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+.profile-details input {
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  outline: none;
+  transition: 0.2s;
+}
+
+.profile-details input:focus {
+  border-color: #1abc9c;
+  box-shadow: 0 0 4px rgba(26, 188, 156, 0.3);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.profile-details button,
+.password-form button,
+.hw-profile-card > button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.profile-details button {
+  background-color: #3498db;
+  color: white;
+}
+
+.profile-details button:hover {
+  background-color: #2980b9;
+}
+
+/* =========================
+   PASSWORD SECTION
+========================= */
+.password-form {
+  text-align: left;
+  margin-top: 15px;
+}
+
+.password-form h3 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.password-input-wrapper span {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+}
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+.hw-profile-card > button:last-child {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.hw-profile-card > button:last-child:hover {
+  background-color: #c0392b;
+}
+
+/* =========================
+   DIVIDER
+========================= */
+hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .hw-layout {
+    gap: 10px;
+  }
+
+  .hw-profile-card {
+    max-width: 420px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hw-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hw-profile-container {
+    padding: 10px;
+  }
+
+  .hw-profile-card {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .photo-placeholder {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .hw-profile-card {
+    padding: 15px;
+  }
+
+  .profile-details h2 {
+    font-size: 18px;
+  }
+
+  .profile-details p {
+    font-size: 13px;
+  }
+
+  .password-input-wrapper span {
+    font-size: 16px;
+  }
+}

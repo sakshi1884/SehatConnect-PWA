@@ -1,0 +1,81 @@
+.contact-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column; /* stack heading above card */
+  justify-content: flex-start; /* start from top */
+  align-items: center;
+  font-family: "Inika", serif;
+}
+
+.contact-heading {
+  font-family: "Inika", serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 40px; /* space between heading and card */
+  text-align: center;
+  margin-bottom:7rem;
+}
+
+.contact-container {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 25px rgba(30, 58, 138, 0.15);
+  padding: 50px 40px;
+  max-width: 600px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.contact-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.25);
+}
+
+.contact-title {
+  color: #1e3a8a;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.contact-subtitle {
+  color: #3b82f6;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  letter-spacing: 0.5px;
+}
+
+.contact-info p {
+  font-size: 18px;
+  color: #333;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.contact-info p:hover {
+  color: #1e3a8a;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .contact-container {
+    padding: 40px 20px;
+  }
+
+  .contact-title {
+    font-size: 22px;
+  }
+
+  .contact-info p {
+    font-size: 16px;
+  }
+}

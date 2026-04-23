@@ -1,0 +1,174 @@
+.healthworker-dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9fbfd;
+}
+
+.healthworker-body {
+  display: flex;
+  flex: 1;
+}
+
+.healthworker-main {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.healthworker-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+  max-width: 1100px;
+  gap: 3rem;
+}
+
+.healthworker-left {
+  flex: 1;
+}
+
+.welcome-text {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.healthworker-tagline {
+  font-size: 1.3rem;
+  color: #444;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  max-width: 500px;
+}
+
+.healthworker-buttons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: #1649b9;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #052977;
+  opacity: 1;
+}
+
+.healthworker-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.healthworker-right img {
+  width: 85%;
+  max-width: 450px;
+  transition: all 0.5s ease;
+  transform: scale(1);
+  filter: drop-shadow(0 0 0 rgba(0, 72, 255, 0));
+}
+
+.healthworker-right img:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 40px rgba(128, 138, 165, 0.4));
+}
+
+/* ========================= */
+/* 📱 Responsive Styles Below */
+/* ========================= */
+
+/* Tablets (<= 1024px) */
+@media (max-width: 1024px) {
+  .healthworker-content {
+    width: 90%;
+    gap: 2rem;
+  }
+
+  .welcome-text {
+    font-size: 2.5rem;
+  }
+
+  .healthworker-tagline {
+    font-size: 1.1rem;
+  }
+
+  .btn-primary {
+    font-size: 1rem;
+    padding: 0.65rem 1.25rem;
+  }
+
+  .healthworker-right img {
+    max-width: 380px;
+  }
+}
+
+/* Mobile Landscape / Small Tablets (<= 768px) */
+@media (max-width: 768px) {
+  .healthworker-main {
+    padding: 2rem;
+  }
+
+  .healthworker-content {
+    flex-direction: column-reverse; /* image below text */
+    text-align: center;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .welcome-text {
+    font-size: 2.2rem;
+  }
+
+  .healthworker-tagline {
+    margin: 0 auto 2rem auto;
+    font-size: 1rem;
+  }
+
+  .healthworker-buttons {
+    justify-content: center;
+  }
+
+  .healthworker-right img {
+    width: 75%;
+    max-width: 350px;
+  }
+}
+
+/* Mobile Portrait (<= 480px) */
+@media (max-width: 480px) {
+  .welcome-text {
+    font-size: 1.8rem;
+  }
+
+  .healthworker-tagline {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .healthworker-right img {
+    width: 80%;
+    max-width: 300px;
+  }
+}

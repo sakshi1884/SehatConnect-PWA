@@ -1,0 +1,116 @@
+.alldoctors-container {
+  text-align: center;
+}
+
+.content {
+  padding: 3rem;
+}
+
+.location {
+  color: #0d3475;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.doctor-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.doctor-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width: 260px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: left;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.doctor-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 1rem;
+  object-fit: cover;
+}
+
+.doctor-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.doctor-info p {
+  font-size: 0.95rem;
+  margin: 6px 0;
+  color: #333;
+}
+
+.doctor-info strong {
+  color: #0d3475;
+}
+
+/* action buttons container */
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.mail-icon-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  flex: none; 
+  padding: 0;
+}
+
+/* mail button */
+.mail-icon-btn {
+  background: #0d6efd;
+}
+
+.mail-icon-btn:hover {
+  background: #0b5ed7;
+  transform: scale(1.05);
+}
+.delete-icon-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  background: transparent !important;  /* ❌ remove red background */
+  border: none;
+  cursor: pointer;
+
+  color: #ff4d4d !important;            /* ✅ icon color red */
+  padding: 4px;
+}
+
+/* hover effect */
+.delete-icon-btn:hover {
+  color: #e63939;
+  transform: scale(1.1);
+}

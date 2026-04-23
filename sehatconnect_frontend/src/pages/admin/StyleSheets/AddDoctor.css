@@ -1,0 +1,135 @@
+/* ===== FULL PAGE WRAPPER ===== */
+.doctor-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #f4f7fb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+/* ===== FORM CARD ===== */
+.doctor-form-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin: 3rem;
+  
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #0077ff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* ===== TITLE ===== */
+.doctor-form-card h2 {
+  text-align: center;
+  margin-bottom: 1.8rem;
+  font-size: 1.6rem;
+  color: #222;
+}
+
+/* ===== FORM ===== */
+.doctor-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* ===== LABELS ===== */
+.doctor-form-card label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* ===== INPUTS ===== */
+.doctor-form-card input {
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.doctor-form-card input:focus {
+  border-color: #0077ff;
+  box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.1);
+}
+
+/* ===== FILE INPUT ===== */
+.doctor-form-card input[type="file"] {
+  padding: 0.4rem;
+  border: none;
+}
+
+/* ===== IMAGE PREVIEW ===== */
+.doctor-form-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0.6rem auto 0.5rem;
+  display: block;
+  border: 2px solid #0077ff;
+}
+
+/* ===== SAVE BUTTON ===== */
+.save-btn {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #0077ff, #00b4ff);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.save-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 119, 255, 0.25);
+}
+
+/* ========================== */
+/* ===== MOBILE (max 480px) ===== */
+/* ========================== */
+@media (max-width: 480px) {
+  .doctor-form-card {
+    padding: 2rem 1.4rem;
+  }
+
+  .doctor-form-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .save-btn {
+    font-size: 0.95rem;
+  }
+}
+
+/* ========================== */
+/* ===== TABLET (481px–768px) ===== */
+/* ========================== */
+@media (max-width: 768px) {
+  .doctor-form-card {
+    max-width: 90%;
+  }
+}
