@@ -25,9 +25,9 @@ const Navbar = () => {
 
       {/* Navbar links */}
       <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
-        <li><button onClick={() => scrollTo("home")}>Home</button></li>
-        <li><button onClick={() => scrollTo("about")}>About</button></li>
-        <li><button onClick={() => scrollTo("contact")}>Contact</button></li>
+        <li><button onClick={() => scrollToSection("home")}>Home</button></li>
+<li><button onClick={() => scrollToSection("about")}>About</button></li>
+<li><button onClick={() => scrollToSection("contact")}>Contact</button></li>
         <li>
           <Link to="/login">Log in</Link>
         </li>
