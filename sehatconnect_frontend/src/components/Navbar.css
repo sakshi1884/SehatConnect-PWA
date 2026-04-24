@@ -33,6 +33,18 @@ nav h1 {
   margin: 0;
 }
 
+.nav-links button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav-links button:hover {
+  color: #1e3a8a;
+}
 /* ===== Desktop Links ===== */
 .nav-links {
   display: flex;

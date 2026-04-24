@@ -8,25 +8,46 @@ const Footer = () => {
         <h3 className="footer-logo">SehatConnect</h3>
 
         <div className="footer-socials">
-          
-          <a href="#" className="social facebook" aria-label="Facebook">
+          <a
+            href="https://facebook.com"
+            className="social facebook"
+            aria-label="Facebook"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <i className="fab fa-facebook"></i>
           </a>
-          <a href="#" className="social instagram" aria-label="Instagram">
+
+          <a
+            href="https://instagram.com"
+            className="social instagram"
+            aria-label="Instagram"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <i className="fab fa-instagram"></i>
           </a>
-          <a href="#" className="social linkedin" aria-label="GitHub">
+
+          <a
+            href="https://linkedin.com"
+            className="social linkedin"
+            aria-label="LinkedIn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <i className="fab fa-linkedin"></i>
           </a>
         </div>
 
         <div className="footer-links">
-          <a href="#">Terms</a>
-          <a href="#">Privacy</a>
-          <a href="#">Cookies</a>
+          <a href="/terms">Terms</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/cookies">Cookies</a>
         </div>
 
-        <p className="footer-copy">© 2025 SehatConnect — All Rights Reserved.</p>
+        <p className="footer-copy">
+          © 2025 SehatConnect — All Rights Reserved.
+        </p>
       </div>
     </footer>
   );

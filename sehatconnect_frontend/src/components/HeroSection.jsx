@@ -20,9 +20,14 @@ const HeroSection = () => {
           <button onClick={() => navigate("/login")} className="primary">
             Get Started
           </button>
-          <a href="#about" className="button">
+         <button
+  className="button"
+  onClick={() => {
+    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+  }}
+>
   Learn More
-</a>
+</button>
         </div>
       </div>
 
