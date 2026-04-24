@@ -62,7 +62,7 @@ export default function DPatientInfo() {
           <p><strong>Occupation:</strong> {patient.occupation || "-"}</p>
           <p><strong>Medical History:</strong> {patient.pastMedicalConditions || "-"}</p>
 
-          {/* EDIT BUTTON */}
+
           <button
             className="edit-btn"
             onClick={() =>

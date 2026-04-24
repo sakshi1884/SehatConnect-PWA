@@ -83,13 +83,10 @@ export default function DPatientDashboard() {
       <DNavbar />
 
       <div className="dashboard-container">
-
-        {/* 🔙 BACK */}
         <button className="back-btn" onClick={() => navigate(-1)}>
           ← Back
         </button>
 
-        {/* HEADER */}
         <div className="dashboard-header">
           <div>
             <h2>{patient.fullName}</h2>
@@ -111,7 +108,6 @@ export default function DPatientDashboard() {
           </div>
         </div>
 
-        {/* METRIC CARDS */}
         {latest && (
           <div className="metrics-grid">
 

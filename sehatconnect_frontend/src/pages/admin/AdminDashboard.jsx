@@ -66,7 +66,7 @@ const AdminDashboard = () => {
               <h1>{healthworkerCount}</h1>
               <button
                 className="secondary-btn"
-                onClick={() => navigate("/admin/:id/allhealthworkers")} // ✅ unchanged
+                onClick={() => navigate("/admin/:id/allhealthworkers")} 
               >
                 All Healthworkers
               </button>

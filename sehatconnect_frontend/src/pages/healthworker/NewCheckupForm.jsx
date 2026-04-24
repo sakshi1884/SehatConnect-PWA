@@ -8,7 +8,6 @@ export default function NewCheckupForm() {
   const { id, pid } = useParams();
   const navigate = useNavigate();
 
-  // ✅ FLASH STATE
   const [flash, setFlash] = useState({ message: "", type: "" });
 
   const [form, setForm] = useState({

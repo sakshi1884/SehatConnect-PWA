@@ -7,7 +7,6 @@ const DNavbar = ({ userEmail }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ get doctor from localStorage
   const doc = JSON.parse(localStorage.getItem("doctorProfile"));
 
   const handleLogoClick = () => {
@@ -51,14 +50,11 @@ const DNavbar = ({ userEmail }) => {
         
 
         <div className="navbar-right">
-          {/* ✅ FIXED */}
           <button onClick={handleProfileClick}>Profile</button>
 
           <button onClick={handleLogout}>Logout</button>
         </div>
       </nav>
-
-      {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

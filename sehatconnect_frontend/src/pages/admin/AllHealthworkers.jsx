@@ -7,14 +7,12 @@ import FlashMessage from "../../components/FlashMessage";
 const AllHealthworkers = () => {
   const [healthworkers, setHealthworkers] = useState([]);
 
-  // ✅ flash state
   const [flash, setFlash] = useState({ message: "", type: "" });
 
   useEffect(() => {
     fetchHealthworkers();
   }, []);
 
-  // ✅ auto hide flash
   useEffect(() => {
     if (flash.message) {
       const timer = setTimeout(() => {
@@ -25,7 +23,6 @@ const AllHealthworkers = () => {
     }
   }, [flash]);
 
-  /* ✅ FETCH ALL */
   const fetchHealthworkers = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/healthworkers");
@@ -37,7 +34,6 @@ const AllHealthworkers = () => {
     }
   };
 
-  /* ✅ SEND MAIL */
   const handleSendMail = async (id) => {
     try {
       const res = await fetch(
@@ -60,7 +56,6 @@ const AllHealthworkers = () => {
     }
   };
 
-  /* ✅ DELETE */
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this healthworker?"
@@ -98,7 +93,6 @@ const AllHealthworkers = () => {
 
       <div className="content">
 
-        {/* ✅ FLASH MESSAGE */}
         <FlashMessage message={flash.message} type={flash.type} />
 
         <h1>Manage Healthworkers</h1>

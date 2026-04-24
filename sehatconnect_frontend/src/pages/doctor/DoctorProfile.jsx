@@ -123,7 +123,6 @@ export default function DoctorProfile() {
       <div className="profile-container">
         <h2>Doctor Profile</h2>
 
-        {/* 🔥 FLASH */}
         <FlashMessage
           message={flash.message}
           type={flash.type}

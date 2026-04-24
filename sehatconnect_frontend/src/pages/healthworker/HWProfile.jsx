@@ -8,8 +8,6 @@ import "./Stylesheets/HWProfile.css";
 export default function HWProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // ✅ FLASH STATE
   const [flash, setFlash] = useState({ message: "", type: "" });
 
   const [profile, setProfile] = useState({

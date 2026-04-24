@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children, allowedRole }) => {
   const doctorData = JSON.parse(localStorage.getItem("doctorData"));
   const patientData = JSON.parse(localStorage.getItem("patientData"));
 
-  const { id } = useParams(); // get dynamic route id if any
+  const { id } = useParams(); 
 
   let isAuthorized = false;
 

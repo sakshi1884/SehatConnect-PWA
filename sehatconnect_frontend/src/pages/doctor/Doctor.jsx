@@ -16,8 +16,6 @@ const Doctor = () => {
 
       if (storedData?.doctor) {
         const fullName = storedData.doctor.fullName || "Doctor";
-
-        // Remove extra "Dr." if already present
         const cleanName = fullName.replace(/^Dr\.\s*/i, "");
 
         setName(cleanName);

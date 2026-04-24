@@ -9,8 +9,6 @@ const Profile = () => {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // ✅ FLASH STATE
   const [flash, setFlash] = useState({ message: "", type: "" });
 
   useEffect(() => {
@@ -42,7 +40,6 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  // ✅ AUTO HIDE FLASH
   useEffect(() => {
     if (flash.message) {
       const timer = setTimeout(() => {
@@ -144,7 +141,6 @@ const Profile = () => {
       <div className="content">
         <h2>Admin Profile</h2>
 
-        {/* 🔥 FLASH MESSAGE */}
         <FlashMessage message={flash.message} type={flash.type} />
 
         <div className="profile-card">

@@ -63,7 +63,6 @@ export default function DHealthCamp() {
           <p>Loading health camps...</p>
         ) : (
           <>
-            {/* Upcoming */}
             <section className="camp-section">
               <h3 className="section-title">🟢 Upcoming Health Camps</h3>
               {upcomingCamps.length === 0 ? (

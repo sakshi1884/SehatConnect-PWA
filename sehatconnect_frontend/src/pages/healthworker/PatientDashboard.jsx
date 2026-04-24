@@ -84,12 +84,10 @@ export default function PatientDashboard() {
 
       <div className="dashboard-container">
 
-        {/* 🔙 BACK */}
         <button className="back-btn" onClick={() => navigate(-1)}>
           ← Back
         </button>
 
-        {/* HEADER */}
         <div className="dashboard-header">
           <div>
             <h2>{patient.fullName}</h2>
@@ -111,7 +109,6 @@ export default function PatientDashboard() {
           </div>
         </div>
 
-        {/* METRIC CARDS */}
         {latest && (
           <div className="metrics-grid">
 
@@ -143,7 +140,6 @@ export default function PatientDashboard() {
           </div>
         )}
 
-        {/* CHART */}
         {checkups.length > 0 && (
           <div className="chart-box">
             <h4>Heart Rate Trend</h4>

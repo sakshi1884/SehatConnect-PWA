@@ -6,16 +6,12 @@ import FlashMessage from "../../components/FlashMessage";
 
 const AllDoctors = () => {
   const [doctors, setDoctors] = useState([]);
-
-  // ✅ flash state
   const [flash, setFlash] = useState({ message: "", type: "" });
 
-  /* ✅ FETCH ALL DOCTORS */
   useEffect(() => {
     fetchDoctors();
   }, []);
 
-  // ✅ auto hide flash
   useEffect(() => {
     if (flash.message) {
       const timer = setTimeout(() => {
@@ -37,7 +33,6 @@ const AllDoctors = () => {
     }
   };
 
-  /* ✅ SEND MAIL */
   const handleSendMail = async (id) => {
     try {
       const res = await fetch(
@@ -60,7 +55,7 @@ const AllDoctors = () => {
     }
   };
 
-  /* ✅ DELETE DOCTOR */
+
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this doctor?"
@@ -96,7 +91,6 @@ const AllDoctors = () => {
 
       <div className="content">
 
-        {/* ✅ FLASH MESSAGE */}
         <FlashMessage message={flash.message} type={flash.type} />
 
         <h1>Manage Doctors</h1>
@@ -106,7 +100,7 @@ const AllDoctors = () => {
           {doctors.map((doctor) => (
             <div className="doctor-card" key={doctor._id}>
 
-              {/* DELETE */}
+           
               <button
                 className="delete-icon-btn"
                 onClick={() => handleDelete(doctor._id)}

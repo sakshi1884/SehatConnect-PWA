@@ -15,7 +15,7 @@ export default function DPatientHistory() {
     loadCheckups();
   }, [pid]);
 
-  /* ✅ FETCH FROM BACKEND */
+
   const fetchPatient = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -45,7 +45,6 @@ export default function DPatientHistory() {
     }
   };
 
-  /* ✅ LOAD CHECKUPS (LOCAL) */
   const loadCheckups = () => {
     const allCheckups =
       JSON.parse(localStorage.getItem("checkups")) || {};
@@ -97,7 +96,6 @@ export default function DPatientHistory() {
           </div>
         </div>
 
-        {/* ✅ NO DETAILS */}
         {!patient?.profileCompleted && (
           <div className="no-data">
             <p>No detailed information added yet</p>
@@ -112,7 +110,6 @@ export default function DPatientHistory() {
           </div>
         )}
 
-        {/* ✅ CHECKUPS */}
         <div className="checkup-section">
           {checkups.length === 0 ? (
             <p className="no-data">No Checkup details added</p>
@@ -132,7 +129,7 @@ export default function DPatientHistory() {
                       👩‍⚕️ {c.doctorName || "Unknown"}
                     </span>
 
-                    {/* RISK */}
+                 
                     <span
                       className={
                         c.temperature > 99
@@ -147,10 +144,9 @@ export default function DPatientHistory() {
                   </div>
                 </div>
 
-                {/* REMARK */}
                 <p>{c.remarks || "Routine checkup"}</p>
 
-                {/* METRICS */}
+               
                 <div className="checkup-metrics">
                   <span>🌡 Temp: {c.temperature}°F</span>
                   <span>❤️ HR: {c.heartRate} bpm</span>

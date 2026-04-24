@@ -45,12 +45,10 @@ export default function PatientInfo() {
       <HNavbar />
 
       <div className="info-container">
-        {/* BACK */}
         <button className="back-btn" onClick={() => navigate(-1)}>
           ← Back
         </button>
 
-        {/* CARD */}
         <div className="info-card">
           <h2>{patient.fullName}</h2>
           <p><strong>Email:</strong> {patient.email}</p>
@@ -62,7 +60,6 @@ export default function PatientInfo() {
           <p><strong>Occupation:</strong> {patient.occupation || "-"}</p>
           <p><strong>Medical History:</strong> {patient.pastMedicalConditions || "-"}</p>
 
-          {/* EDIT BUTTON */}
           <button
             className="edit-btn"
             onClick={() =>

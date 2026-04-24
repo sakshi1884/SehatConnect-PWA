@@ -44,7 +44,6 @@ export default function PatientHistory() {
     }
   };
 
-  /* ✅ LOAD CHECKUPS (LOCAL) */
   const loadCheckups = () => {
     const allCheckups =
       JSON.parse(localStorage.getItem("checkups")) || {};
@@ -68,7 +67,6 @@ export default function PatientHistory() {
           ← Back
         </button>
 
-        {/* ✅ HEADER */}
         <div className="details-header">
           <div>
             <h2>{patient?.fullName || "Unknown Patient"}</h2>
@@ -96,7 +94,7 @@ export default function PatientHistory() {
           </div>
         </div>
 
-        {/* ✅ NO DETAILS */}
+
         {!patient?.profileCompleted && (
           <div className="no-data">
             <p>No detailed information added yet</p>
@@ -111,7 +109,6 @@ export default function PatientHistory() {
           </div>
         )}
 
-        {/* ✅ CHECKUPS */}
         <div className="checkup-section">
           {checkups.length === 0 ? (
             <p className="no-data">No Checkup details added</p>
@@ -131,7 +128,6 @@ export default function PatientHistory() {
                       👩‍⚕️ {c.healthWorkerName || "Unknown"}
                     </span>
 
-                    {/* RISK */}
                     <span
                       className={
                         c.temperature > 99
@@ -146,10 +142,8 @@ export default function PatientHistory() {
                   </div>
                 </div>
 
-                {/* REMARK */}
                 <p>{c.remarks || "Routine checkup"}</p>
 
-                {/* METRICS */}
                 <div className="checkup-metrics">
                   <span>🌡 Temp: {c.temperature}°F</span>
                   <span>❤️ HR: {c.heartRate} bpm</span>
