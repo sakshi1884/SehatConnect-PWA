@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import Admin from "./models/Admin.js"; 
 
-const MONGO_URI = "mongodb+srv://sakship1884_db_user:Sakshh_1884@cluster0.mphlhow.mongodb.net/sehatconnect?retryWrites=true&w=majority";
+const MONGO_URI = "mongodb+srv://sehatconnect18_db_user:ANMsRlkVk8ls6aI8@sehatconnect.ivbnsjx.mongodb.net/sehatconnect?appName=sehatconnect";
 
 mongoose.connect(MONGO_URI)
   .then(async () => {
