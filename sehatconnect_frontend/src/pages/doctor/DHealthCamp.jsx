@@ -15,7 +15,7 @@ export default function DHealthCamp() {
   const fetchHealthCamps = async () => {
   try {
     const res = await axios.get(
-      "http://localhost:5000/api/healthcamps"
+      "https://sehatconnect-pwa-4.onrender.com/api/healthcamps"
     );
 
     console.log("API HEALTH CAMPS:", res.data);

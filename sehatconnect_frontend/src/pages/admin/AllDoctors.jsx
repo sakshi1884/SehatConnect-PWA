@@ -24,7 +24,7 @@ const AllDoctors = () => {
 
   const fetchDoctors = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/doctors");
+      const res = await fetch("https://sehatconnect-pwa-4.onrender.com/api/doctors");
       const data = await res.json();
       setDoctors(data);
     } catch (err) {
@@ -36,7 +36,7 @@ const AllDoctors = () => {
   const handleSendMail = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/doctors/send-credentials/${id}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/doctors/send-credentials/${id}`,
         { method: "POST" }
       );
 
@@ -64,7 +64,7 @@ const AllDoctors = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/doctors/${id}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/doctors/${id}`,
         { method: "DELETE" }
       );
 

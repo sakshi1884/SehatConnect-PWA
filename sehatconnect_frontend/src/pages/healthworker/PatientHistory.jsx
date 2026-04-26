@@ -20,7 +20,7 @@ export default function PatientHistory() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `http://localhost:5000/api/patients/${pid}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/patients/${pid}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

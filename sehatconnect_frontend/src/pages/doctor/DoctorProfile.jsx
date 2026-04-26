@@ -28,7 +28,7 @@ export default function DoctorProfile() {
     const fetchProfile = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/doctors/profile",
+          "https://sehatconnect-pwa-4.onrender.com/api/doctors/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -48,7 +48,7 @@ export default function DoctorProfile() {
         setPreview(
           data.photo?.startsWith("http")
             ? data.photo
-            : `http://localhost:5000/${data.photo}`
+            : `https://sehatconnect-pwa-4.onrender.com/${data.photo}`
         );
       } catch (err) {
         setFlash({ message: "Failed to load profile ❌", type: "error" });
@@ -83,7 +83,7 @@ export default function DoctorProfile() {
         data.append("password", formData.newPassword);
 
       const res = await axios.put(
-        "http://localhost:5000/api/doctors/profile",
+        "https://sehatconnect-pwa-4.onrender.com/api/doctors/profile",
         data,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -96,7 +96,7 @@ export default function DoctorProfile() {
       setPreview(
         updatedDoctor.photo?.startsWith("http")
           ? updatedDoctor.photo
-          : `http://localhost:5000/${updatedDoctor.photo}`
+          : `https://sehatconnect-pwa-4.onrender.com/${updatedDoctor.photo}`
       );
 
       setIsEditing(false);

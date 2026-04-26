@@ -182,7 +182,7 @@ export default function HWProfile() {
                   src={
                     profile.profilePhoto.startsWith("http")
                       ? profile.profilePhoto
-                      : `http://localhost:5000/${profile.profilePhoto}`
+                      : `https://sehatconnect-pwa-4.onrender.com/${profile.profilePhoto}`
                   }
                   alt="Profile"
                   className="profile-photo"

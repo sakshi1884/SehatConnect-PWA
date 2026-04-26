@@ -94,7 +94,7 @@ export default function DAddPatient() {
       }
 
       await axios.post(
-        "http://localhost:5000/api/patients/register",
+        "https://sehatconnect-pwa-4.onrender.com/api/patients/register",
         data,
         {
           headers: {

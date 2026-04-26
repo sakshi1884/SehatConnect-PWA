@@ -38,7 +38,7 @@ export default function AdminHealthCamps() {
   /* ================= FETCH ================= */
   const fetchAllCamps = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/healthcamps");
+      const res = await fetch("https://sehatconnect-pwa-4.onrender.com/api/healthcamps");
       if (!res.ok) throw new Error("Failed to fetch camps");
 
       const data = await res.json();
@@ -64,7 +64,7 @@ export default function AdminHealthCamps() {
 
       if (editId) {
         res = await fetch(
-          `http://localhost:5000/api/healthcamps/${editId}`,
+          `https://sehatconnect-pwa-4.onrender.com/api/healthcamps/${editId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ export default function AdminHealthCamps() {
           }
         );
       } else {
-        res = await fetch("http://localhost:5000/api/healthcamps", {
+        res = await fetch("https://sehatconnect-pwa-4.onrender.com/api/healthcamps", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(camp),
@@ -116,7 +116,7 @@ export default function AdminHealthCamps() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/healthcamps/${id}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/healthcamps/${id}`,
         { method: "DELETE" }
       );
 
@@ -157,7 +157,7 @@ export default function AdminHealthCamps() {
   const handleSendReminder = async (camp) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/healthcamps/send-reminder/${camp._id}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/healthcamps/send-reminder/${camp._id}`,
         { method: "POST" }
       );
 

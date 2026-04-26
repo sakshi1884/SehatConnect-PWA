@@ -39,7 +39,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const avatar = profile?.profilePic
     ? profile.profilePic.startsWith("http")
       ? profile.profilePic
-      : `http://localhost:5000/${profile.profilePic}`
+      : `https://sehatconnect-pwa-4.onrender.com/${profile.profilePic}`
     : defaultAvatar;
 
   const name = profile?.name || profile?.fullName || "Admin";

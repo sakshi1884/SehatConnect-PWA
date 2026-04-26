@@ -34,7 +34,7 @@ export default function DAllPatients() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/patients", {
+      const res = await fetch("https://sehatconnect-pwa-4.onrender.com/api/patients", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -75,7 +75,7 @@ export default function DAllPatients() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `http://localhost:5000/api/patients/${pid}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/patients/${pid}`,
         {
           method: "DELETE",
           headers: {

@@ -25,7 +25,7 @@ const AllHealthworkers = () => {
 
   const fetchHealthworkers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/healthworkers");
+      const res = await fetch("https://sehatconnect-pwa-4.onrender.com/api/healthworkers");
       const data = await res.json();
       setHealthworkers(data);
     } catch (err) {
@@ -37,7 +37,7 @@ const AllHealthworkers = () => {
   const handleSendMail = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/healthworkers/send-credentials/${id}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/healthworkers/send-credentials/${id}`,
         { method: "POST" }
       );
 
@@ -64,7 +64,7 @@ const AllHealthworkers = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/healthworkers/${id}`,
+        `https://sehatconnect-pwa-4.onrender.com/api/healthworkers/${id}`,
         { method: "DELETE" }
       );
 

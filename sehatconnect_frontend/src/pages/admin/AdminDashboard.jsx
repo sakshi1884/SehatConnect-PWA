@@ -16,8 +16,8 @@ const AdminDashboard = () => {
     try {
       console.log("Fetching counts...");
 
-      const doctorRes = await fetch("http://localhost:5000/api/doctors/count");
-      const healthRes = await fetch("http://localhost:5000/api/healthworkers/count");
+      const doctorRes = await fetch("https://sehatconnect-pwa-4.onrender.com/api/doctors/count");
+      const healthRes = await fetch("hhttps://sehatconnect-pwa-4.onrender.com/api/healthworkers/count");
 
       console.log("Doctor API Status:", doctorRes.status);
       console.log("Health API Status:", healthRes.status);

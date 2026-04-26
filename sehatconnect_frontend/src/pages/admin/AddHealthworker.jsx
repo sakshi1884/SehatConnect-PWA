@@ -77,7 +77,7 @@ const AddHealthworker = () => {
       }
 
       await axios.post(
-        "http://localhost:5000/api/healthworkers/register",
+        "https://sehatconnect-pwa-4.onrender.com/api/healthworkers/register",
         data
       );
 

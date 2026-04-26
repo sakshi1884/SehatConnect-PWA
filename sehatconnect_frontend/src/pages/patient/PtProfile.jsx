@@ -72,7 +72,7 @@ export default function PtProfile() {
       }
 
       const res = await fetch(
-        "http://localhost:5000/api/patients/profile",
+        "https://sehatconnect-pwa-4.onrender.com/api/patients/profile",
         {
           method: "PUT",
           headers: {
