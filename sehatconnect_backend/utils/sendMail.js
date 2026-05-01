@@ -18,7 +18,7 @@ export const sendCredentialsMail = async ({
   password,
 }) => {
   const mailOptions = {
-    from: `"SehatConnect"<a9e4eb001@smtp-brevo.com>`,
+    from: `"SehatConnect"<sehatconnect438@gmail.com>`,
     to,
     subject: `Welcome to SehatConnect - ${role} Account`,
     html: `

@@ -19,7 +19,7 @@ export const sendCampNotificationMail = async ({
   description,
 }) => {
   const mailOptions = {
-    from: `"SehatConnect"<a9e4eb001@smtp-brevo.com>`, 
+    from: `"SehatConnect"<sehatconnect438@gmail.com>`, 
     to,
     subject: `📢 New Health Camp: ${campName}`,
     html: `
