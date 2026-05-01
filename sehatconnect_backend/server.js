@@ -56,6 +56,9 @@ const startServer = async () => {
     console.log("MONGO_URL:", process.env.MONGO_URL);
     await connectDB(); // ✅ WAIT for MongoDB
 
+    console.log("SMTP_USER:", process.env.SMTP_USER);
+console.log("SMTP_PASS exists:", !!process.env.SMTP_PASS);
+
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });

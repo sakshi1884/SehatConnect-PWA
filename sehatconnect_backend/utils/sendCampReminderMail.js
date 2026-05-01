@@ -20,7 +20,7 @@ export const sendCampReminderMail = async ({
   location,
 }) => {
   const mailOptions = {
-    from: `"SehatConnect"<sehatconnect438@gmail.com>`,
+    from: `"SehatConnect"<a9e4eb001@smtp-brevo.com>`,
     to,
     subject: `⏰ Reminder: ${campName} in ${daysLeft} day(s)`,
     html: `
