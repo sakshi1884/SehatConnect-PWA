@@ -1,5 +1,5 @@
-import Checkup from "../models/Checkup.js";
-import { spawn } from "child_process";
+import Checkup from "../models/checkup.js";
+import { spawn } from "child_process";0
 import path from "path";
 
 // ================= ADD CHECKUP =================
