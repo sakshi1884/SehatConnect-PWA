@@ -19,7 +19,7 @@ export default function PtDashboard() {
   const [checkups, setCheckups] = useState([]);
   const [latest, setLatest] = useState(null);
 
-  // ✅ get logged-in patient
+  // ✅ logged-in patient
   const stored = JSON.parse(localStorage.getItem("patientData"));
   const patientData = stored?.patient || stored;
   const pid = patientData?._id;
@@ -27,21 +27,41 @@ export default function PtDashboard() {
   useEffect(() => {
     if (patientData) {
       setPatient(patientData);
-      loadCheckups(patientData._id);
+      fetchCheckups(pid);
     }
   }, []);
 
-  // ================= LOAD CHECKUPS =================
-  const loadCheckups = (id) => {
-    const all = JSON.parse(localStorage.getItem("checkups")) || {};
-    const arr = all[id] || [];
+  // ================= FETCH CHECKUPS =================
+  const fetchCheckups = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const sorted = [...arr].sort(
-      (a, b) => new Date(a.date) - new Date(b.date)
-    );
+      const res = await fetch(
+        `https://sehatconnect-pwa-4.onrender.com/api/checkups/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    setCheckups(sorted);
-    setLatest(sorted[sorted.length - 1]);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+
+      // ✅ sort oldest → latest
+      const sorted = data.checkups.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+
+      setCheckups(sorted);
+
+      // ✅ FIXED: pick latest correctly
+      setLatest(sorted[sorted.length - 1]);
+
+    } catch (err) {
+      console.error("Checkup fetch error:", err);
+    }
   };
 
   const getAge = (dob) => {
@@ -119,7 +139,40 @@ export default function PtDashboard() {
 
             <div className="card normal">
               <p>BMI</p>
-              <h3>{latest.bmi}</h3>
+              <h3>{latest.bmi?.toFixed(1)}</h3>
+            </div>
+
+            {/* ✅ NEW METRICS */}
+            <div className="card normal">
+              <p>Respiratory Rate</p>
+              <h3>{latest.respiratoryRate}</h3>
+            </div>
+
+            <div className="card normal">
+              <p>Pulse Pressure</p>
+              <h3>{latest.pulsePressure}</h3>
+            </div>
+
+            <div className="card normal">
+              <p>MAP</p>
+              <h3>{latest.map?.toFixed(1)}</h3>
+            </div>
+
+            <div className="card normal">
+              <p>HRV</p>
+              <h3>{latest.hrv || "-"}</h3>
+            </div>
+
+            {/* ✅ AI CARD (NOW FROM DB) */}
+            <div className={`card ${
+              latest.riskLevel === "High"
+                ? "high"
+                : latest.riskLevel === "Moderate"
+                ? "moderate"
+                : "normal"
+            }`}>
+              <p>Overall Health (AI)</p>
+              <h3>{latest.riskLevel || "Pending"}</h3>
             </div>
 
           </div>

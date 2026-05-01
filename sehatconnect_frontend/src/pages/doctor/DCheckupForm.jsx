@@ -9,7 +9,7 @@ export default function DCheckupForm() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    healthWorkerName: "",
+    name: "",
     temperature: "",
     systolic: "",
     diastolic: "",
@@ -18,40 +18,30 @@ export default function DCheckupForm() {
     spo2: "",
     bloodSugar: "",
     weight: "",
-    height: "",
+    height: "", // in cm (UI)
     remarks: "",
     otherSymptoms: "",
   });
 
-  // ✅ FLASH STATE
   const [flash, setFlash] = useState({ message: "", type: "" });
 
+  // ✅ get doctor name
   useEffect(() => {
     const doc = JSON.parse(localStorage.getItem("doctorProfile"));
 
     if (doc) {
       setForm((prev) => ({
         ...prev,
-        healthWorkerName: doc.name || doc.fullName || "",
+        name: doc.name || doc.fullName || "",
       }));
     }
   }, []);
-
-  // ✅ AUTO HIDE FLASH
-  useEffect(() => {
-    if (flash.message) {
-      const timer = setTimeout(() => {
-        setFlash({ message: "", type: "" });
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [flash]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // ✅ BMI
   const calculateBMI = () => {
     const { weight, height } = form;
     if (weight && height) {
@@ -60,36 +50,78 @@ export default function DCheckupForm() {
     return "";
   };
 
-  const handleSubmit = (e) => {
+  // ✅ DERIVED
+  const calculateDerived = () => {
+    const sys = Number(form.systolic);
+    const dia = Number(form.diastolic);
+
+    return {
+      pulsePressure: sys - dia,
+      map: (sys + 2 * dia) / 3,
+    };
+  };
+
+  // ================= SUBMIT =================
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const newRecord = {
-        ...form,
-        bmi: calculateBMI(),
-        date: new Date().toISOString().split("T")[0],
+      const token = localStorage.getItem("token");
+
+      const derived = calculateDerived();
+
+      const payload = {
+        patientId: pid,
+        createdByModel: "Doctor",
+        name: form.name,
+
+        temperature: Number(form.temperature),
+        heartRate: Number(form.heartRate),
+        respiratoryRate: Number(form.respiratoryRate),
+        spo2: Number(form.spo2),
+
+        systolic: Number(form.systolic),
+        diastolic: Number(form.diastolic),
+
+        weight: Number(form.weight),
+
+        // ✅ FIX HEIGHT → meters
+        height: Number(form.height) / 100,
+
+        bmi: Number(calculateBMI()),
+
+        pulsePressure: derived.pulsePressure,
+        map: derived.map,
+        hrv: 0, // placeholder
+
+        remarks: form.remarks,
       };
 
-      const allCheckups =
-        JSON.parse(localStorage.getItem("checkups")) || {};
+      const res = await fetch(
+        "https://sehatconnect-pwa-4.onrender.com/api/checkups",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
-      const patientCheckups = allCheckups[pid] || [];
+      const data = await res.json();
 
-      patientCheckups.push(newRecord);
-
-      allCheckups[pid] = patientCheckups;
-
-      localStorage.setItem("checkups", JSON.stringify(allCheckups));
+      if (!res.ok) throw new Error(data.message);
 
       setFlash({
-        message: "New checkup saved successfully ✅",
+        message: "Checkup saved successfully ✅",
         type: "success",
       });
 
-      // delay navigation so user sees message
       setTimeout(() => {
         navigate(`/doctor/${id}/patient/${pid}/history`);
-      }, 800);
+      }, 1000);
+
     } catch (err) {
       console.error(err);
 
@@ -106,7 +138,6 @@ export default function DCheckupForm() {
 
       <div className="add-patient-container">
 
-        {/* 🔥 FLASH MESSAGE */}
         <FlashMessage message={flash.message} type={flash.type} />
 
         <div className="header-row">
@@ -118,110 +149,37 @@ export default function DCheckupForm() {
 
         <form className="add-patient-form" onSubmit={handleSubmit}>
           
-          <label>Added By:</label>
-          <input
-            name="healthWorkerName"
-            value={form.healthWorkerName}
-            readOnly
-          />
+          <label>Doctor Name:</label>
+          <input name="name" value={form.name} readOnly />
 
           <label>Body Temperature (°F):</label>
-          <input
-            name="temperature"
-            type="number"
-            value={form.temperature}
-            onChange={handleChange}
-            required
-          />
+          <input name="temperature" type="number" value={form.temperature} onChange={handleChange} required />
 
-          <label>Systolic BP (mmHg):</label>
-          <input
-            name="systolic"
-            type="number"
-            value={form.systolic}
-            onChange={handleChange}
-            required
-          />
+          <label>Systolic BP:</label>
+          <input name="systolic" type="number" value={form.systolic} onChange={handleChange} required />
 
-          <label>Diastolic BP (mmHg):</label>
-          <input
-            name="diastolic"
-            type="number"
-            value={form.diastolic}
-            onChange={handleChange}
-            required
-          />
+          <label>Diastolic BP:</label>
+          <input name="diastolic" type="number" value={form.diastolic} onChange={handleChange} required />
 
-          <label>Heart Rate (bpm):</label>
-          <input
-            name="heartRate"
-            type="number"
-            value={form.heartRate}
-            onChange={handleChange}
-            required
-          />
+          <label>Heart Rate:</label>
+          <input name="heartRate" type="number" value={form.heartRate} onChange={handleChange} required />
 
-          <label>Respiratory Rate (breaths/min):</label>
-          <input
-            name="respiratoryRate"
-            type="number"
-            value={form.respiratoryRate}
-            onChange={handleChange}
-            required
-          />
+          <label>Respiratory Rate:</label>
+          <input name="respiratoryRate" type="number" value={form.respiratoryRate} onChange={handleChange} required />
 
-          <label>Oxygen Saturation (SpO₂ %):</label>
-          <input
-            name="spo2"
-            type="number"
-            value={form.spo2}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Blood Sugar (mg/dL):</label>
-          <input
-            name="bloodSugar"
-            type="number"
-            value={form.bloodSugar}
-            onChange={handleChange}
-          />
+          <label>SpO₂:</label>
+          <input name="spo2" type="number" value={form.spo2} onChange={handleChange} required />
 
           <label>Weight (kg):</label>
-          <input
-            name="weight"
-            type="number"
-            value={form.weight}
-            onChange={handleChange}
-            required
-          />
+          <input name="weight" type="number" value={form.weight} onChange={handleChange} required />
 
           <label>Height (cm):</label>
-          <input
-            name="height"
-            type="number"
-            value={form.height}
-            onChange={handleChange}
-            required
-          />
+          <input name="height" type="number" value={form.height} onChange={handleChange} required />
 
-          <p>
-            BMI (auto-calculated): <strong>{calculateBMI()}</strong>
-          </p>
-
-          <label>Other Symptoms:</label>
-          <textarea
-            name="otherSymptoms"
-            value={form.otherSymptoms}
-            onChange={handleChange}
-          />
+          <p>BMI: <strong>{calculateBMI()}</strong></p>
 
           <label>Remarks:</label>
-          <textarea
-            name="remarks"
-            value={form.remarks}
-            onChange={handleChange}
-          />
+          <textarea name="remarks" value={form.remarks} onChange={handleChange} />
 
           <button type="submit" className="next-btn">
             Save Checkup

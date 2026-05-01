@@ -12,9 +12,10 @@ export default function PatientHistory() {
 
   useEffect(() => {
     fetchPatient();
-    loadCheckups();
+    fetchCheckups(); // ✅ FIXED
   }, [pid]);
 
+  // ================= FETCH PATIENT =================
   const fetchPatient = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -44,17 +45,33 @@ export default function PatientHistory() {
     }
   };
 
-  const loadCheckups = () => {
-    const allCheckups =
-      JSON.parse(localStorage.getItem("checkups")) || {};
+  // ================= FETCH CHECKUPS (FIXED) =================
+  const fetchCheckups = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const patientCheckups = allCheckups[pid] || [];
+      const res = await fetch(
+        `https://sehatconnect-pwa-4.onrender.com/api/checkups/${pid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    const sorted = [...patientCheckups].sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
+      const data = await res.json();
 
-    setCheckups(sorted);
+      if (!res.ok) throw new Error(data.message);
+
+      const sorted = data.checkups.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+
+      setCheckups(sorted);
+
+    } catch (err) {
+      console.error("Checkup fetch error:", err);
+    }
   };
 
   return (
@@ -62,11 +79,12 @@ export default function PatientHistory() {
       <HNavbar />
 
       <div className="details-container">
-        {/* 🔙 BACK */}
+
         <button className="back-btn" onClick={() => navigate(-1)}>
           ← Back
         </button>
 
+        {/* HEADER */}
         <div className="details-header">
           <div>
             <h2>{patient?.fullName || "Unknown Patient"}</h2>
@@ -89,11 +107,10 @@ export default function PatientHistory() {
                 navigate(`/healthworker/${id}/patient/${pid}/info`)
               }
             >
-              ✏️Details
+              ✏️ Details
             </button>
           </div>
         </div>
-
 
         {!patient?.profileCompleted && (
           <div className="no-data">
@@ -109,13 +126,14 @@ export default function PatientHistory() {
           </div>
         )}
 
+        {/* CHECKUPS */}
         <div className="checkup-section">
           {checkups.length === 0 ? (
             <p className="no-data">No Checkup details added</p>
           ) : (
             checkups.map((c, index) => (
               <div key={index} className="checkup-card">
-                
+
                 {/* HEADER */}
                 <div className="checkup-header">
                   <span>
@@ -123,39 +141,47 @@ export default function PatientHistory() {
                   </span>
 
                   <div className="right-header">
-                    {/* ✅ HEALTH WORKER */}
+
+                    {/* ✅ WHO CREATED */}
                     <span className="hw-mini">
-                      👩‍⚕️ {c.healthWorkerName || "Unknown"}
+                      👩‍⚕️ {c.name || "Unknown"}
                     </span>
 
+                    {/* ✅ AI RISK */}
                     <span
-                      className={
-                        c.temperature > 99
-                          ? "risk high"
-                          : "risk normal"
-                      }
+                      className={`risk ${
+                        c.riskLevel === "High"
+                          ? "high"
+                          : c.riskLevel === "Moderate"
+                          ? "moderate"
+                          : "normal"
+                      }`}
                     >
-                      {c.temperature > 99
-                        ? "Moderate Risk"
-                        : "No Risk"}
+                      {c.riskLevel || "Pending"}
                     </span>
+
                   </div>
                 </div>
 
+                {/* REMARK */}
                 <p>{c.remarks || "Routine checkup"}</p>
 
+                {/* METRICS */}
                 <div className="checkup-metrics">
                   <span>🌡 Temp: {c.temperature}°F</span>
                   <span>❤️ HR: {c.heartRate} bpm</span>
-                  <span>
-                    🩺 BP: {c.systolic}/{c.diastolic}
-                  </span>
+                  <span>🩺 BP: {c.systolic}/{c.diastolic}</span>
                   <span>🫁 O2: {c.spo2}%</span>
+                  <span>🫁 RR: {c.respiratoryRate}</span>
+                  <span>⚖ BMI: {c.bmi?.toFixed(1)}</span>
+                  <span>📊 MAP: {c.map?.toFixed(1)}</span>
                 </div>
+
               </div>
             ))
           )}
         </div>
+
       </div>
     </div>
   );

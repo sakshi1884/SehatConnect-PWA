@@ -40,11 +40,6 @@ const HNavbar = () => {
           </h2>
         </div>
 
-        <div className="search-bar">
-          <input type="text" placeholder="Search Patients" />
-          <button className="crossBtn">✕</button>
-        </div>
-
         <div className="navbar-right">
           <a
             onClick={() => {

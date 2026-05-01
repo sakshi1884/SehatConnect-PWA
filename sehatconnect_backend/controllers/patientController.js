@@ -259,7 +259,6 @@ export const updatePatientProfile = async (req, res) => {
       patient.email = email.toLowerCase();
     }
 
-    // ✅ enum-safe updates (IGNORE empty strings)
     if (dietType && dietType !== "") {
       patient.dietType = dietType;
     }

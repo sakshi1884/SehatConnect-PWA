@@ -11,7 +11,8 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import healthworkerRoutes from "./routes/healthworkerRoutes.js";
 import healthCampRoutes from "./routes/healthCampRoutes.js";
 import patientRouter from "./routes/patientRoute.js";
-
+import checkupRoutes from "./routes/checkupRoutes.js";
+import predictRoutes from "./routes/predictRoutes.js";
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
@@ -45,7 +46,8 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/healthworkers", healthworkerRoutes);
 app.use("/api/healthcamps", healthCampRoutes);
 app.use("/api/patients", patientRouter);
-
+app.use("/api/checkups", checkupRoutes);
+app.use("/api/predict", predictRoutes);
 /* ================= SERVER START ================= */
 const PORT = process.env.PORT || 5000;
 

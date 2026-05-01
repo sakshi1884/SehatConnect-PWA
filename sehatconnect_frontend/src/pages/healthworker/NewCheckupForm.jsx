@@ -48,38 +48,67 @@ export default function NewCheckupForm() {
     return "";
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const newRecord = {
-      ...form,
-      bmi: calculateBMI(),
-      date: new Date().toISOString().split("T")[0],
+  try {
+    const token = localStorage.getItem("token");
+
+    const heightInMeters = Number(form.height) / 100;
+
+    const payload = {
+      temperature: Number(form.temperature),
+      systolic: Number(form.systolic),
+      diastolic: Number(form.diastolic),
+      heartRate: Number(form.heartRate),
+      respiratoryRate: Number(form.respiratoryRate),
+      spo2: Number(form.spo2),
+
+      weight: Number(form.weight),
+      height: heightInMeters, // ✅ FIXED
+
+      bmi: Number(calculateBMI()),
+
+      remarks: form.remarks,
+      otherSymptoms: form.otherSymptoms,
     };
 
-    const allCheckups =
-      JSON.parse(localStorage.getItem("checkups")) || {};
+    const res = await fetch(
+      `http://localhost:5000/api/checkups/${pid}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
 
-    const patientCheckups = allCheckups[pid] || [];
+    const data = await res.json();
 
-    patientCheckups.push(newRecord);
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to save checkup");
+    }
 
-    allCheckups[pid] = patientCheckups;
-
-    localStorage.setItem("checkups", JSON.stringify(allCheckups));
-
-    // ✅ FLASH SUCCESS
     setFlash({
-      message: "New checkup saved successfully ✅",
+      message: "Checkup saved to database ✅",
       type: "success",
     });
 
-    // navigate after delay so user sees flash
     setTimeout(() => {
       navigate(`/healthworker/${id}/patient/${pid}/history`);
     }, 1200);
-  };
 
+  } catch (error) {
+    console.error(error);
+
+    setFlash({
+      message: error.message || "Error saving checkup ❌",
+      type: "error",
+    });
+  }
+};
   return (
     <div>
       <HNavbar />

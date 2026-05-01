@@ -22,9 +22,10 @@ export default function DPatientDashboard() {
 
   useEffect(() => {
     fetchPatient();
-    loadCheckups();
+    fetchCheckups();
   }, [pid]);
 
+  // ================= FETCH PATIENT =================
   const fetchPatient = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -36,21 +37,39 @@ export default function DPatientDashboard() {
 
       const data = await res.json();
       if (res.ok) setPatient(data.patient);
+
     } catch (err) {
       console.error(err);
     }
   };
 
-  const loadCheckups = () => {
-    const all = JSON.parse(localStorage.getItem("checkups")) || {};
-    const arr = all[pid] || [];
+  // ================= FETCH CHECKUPS =================
+  const fetchCheckups = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const sorted = [...arr].sort(
-      (a, b) => new Date(a.date) - new Date(b.date)
-    );
+      const res = await fetch(
+        `https://sehatconnect-pwa-4.onrender.com/api/checkups/${pid}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-    setCheckups(sorted);
-    setLatest(sorted[sorted.length - 1]);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+
+      // newest first
+      const sorted = data.checkups.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+
+      setCheckups(sorted);
+      setLatest(sorted[0]);
+
+    } catch (err) {
+      console.error("Checkup fetch error:", err);
+    }
   };
 
   const getAge = (dob) => {
@@ -78,15 +97,23 @@ export default function DPatientDashboard() {
     return "normal";
   };
 
+  const getRiskColor = (risk) => {
+    if (risk === "High") return "high";
+    if (risk === "Low") return "normal";
+    return "neutral";
+  };
+
   return (
     <div>
       <DNavbar />
 
       <div className="dashboard-container">
+
         <button className="back-btn" onClick={() => navigate(-1)}>
           ← Back
         </button>
 
+        {/* HEADER */}
         <div className="dashboard-header">
           <div>
             <h2>{patient.fullName}</h2>
@@ -108,6 +135,7 @@ export default function DPatientDashboard() {
           </div>
         </div>
 
+        {/* METRICS */}
         {latest && (
           <div className="metrics-grid">
 
@@ -133,7 +161,34 @@ export default function DPatientDashboard() {
 
             <div className="card normal">
               <p>BMI</p>
-              <h3>{latest.bmi}</h3>
+              <h3>{latest.bmi?.toFixed(1)}</h3>
+            </div>
+
+            {/* NEW METRICS */}
+            <div className="card normal">
+              <p>Respiratory Rate</p>
+              <h3>{latest.respiratoryRate}</h3>
+            </div>
+
+            <div className="card normal">
+              <p>Pulse Pressure</p>
+              <h3>{latest.pulsePressure}</h3>
+            </div>
+
+            <div className="card normal">
+              <p>MAP</p>
+              <h3>{latest.map?.toFixed(1)}</h3>
+            </div>
+
+            <div className="card normal">
+              <p>HRV</p>
+              <h3>{latest.hrv || "-"}</h3>
+            </div>
+
+            {/* AI CARD */}
+            <div className={`card ${getRiskColor(latest.riskLevel)}`}>
+              <p>Overall Health (AI)</p>
+              <h3>{latest.riskLevel || "Pending"}</h3>
             </div>
 
           </div>
