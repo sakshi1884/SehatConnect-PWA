@@ -97,7 +97,7 @@ const AddDoctor = () => {
       }
 
       await axios.post(
-        "http://127.0.0.1:5000/api/doctors/register",
+        "https://sehatconnect-pwa-4.onrender.com/api/doctors/register",
         data
       );
 
