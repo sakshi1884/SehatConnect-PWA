@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "a84e50001@smtp-brevo.com",
+    user: "a9e4eb001@smtp-brevo.com",
     pass: process.env.SMTP_PASS,
   },
 });
@@ -20,7 +20,7 @@ export const sendCampReminderMail = async ({
   location,
 }) => {
   const mailOptions = {
-    from: `"SehatConnect"<sehatconnect18@gmail.com>`,
+    from: `"SehatConnect"<sehatconnect438@gmail.com>`,
     to,
     subject: `⏰ Reminder: ${campName} in ${daysLeft} day(s)`,
     html: `
