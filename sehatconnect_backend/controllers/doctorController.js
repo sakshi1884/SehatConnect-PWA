@@ -97,7 +97,7 @@ export const registerDoctor = async (req, res) => {
       password, // ✅ RAW PASSWORD (model will hash)
       photo: photoUrl,
     });
-
+    console.log("📩 About to send email...");
     /* ================= EMAIL ================= */
     await sendCredentialsMail({
       to: doctor.email,
@@ -106,6 +106,7 @@ export const registerDoctor = async (req, res) => {
       email: doctor.email,
       password,
     });
+    console.log("📩 Email function executed");
 
     res.status(201).json({
       message: "Doctor registered successfully ✅",
