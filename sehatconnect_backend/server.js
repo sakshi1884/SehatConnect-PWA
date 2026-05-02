@@ -3,6 +3,7 @@ import "./config/env.js";   // ✅ MUST BE FIRST
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import { spawn } from "child_process";
 
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
@@ -39,6 +40,24 @@ app.get("/", (req, res) => {
   res.send("SehatConnect Backend Running ✅");
 });
 
+app.get("/test-python", (req, res) => {
+  const p = spawn("python3", ["-c", "print('PYTHON WORKING')"]);
+
+  let output = "";
+
+  p.stdout.on("data", (data) => {
+    output += data.toString();
+  });
+
+  p.stderr.on("data", (data) => {
+    output += data.toString();
+  });
+
+  p.on("close", () => {
+    res.send(output || "Python not found");
+  });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/doctors", doctorRoutes);
@@ -55,9 +74,6 @@ const startServer = async () => {
   try {
     console.log("MONGO_URL:", process.env.MONGO_URL);
     await connectDB(); // ✅ WAIT for MongoDB
-
-    console.log("SMTP_USER:", process.env.SMTP_USER);
-console.log("SMTP_PASS exists:", !!process.env.SMTP_PASS);
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
