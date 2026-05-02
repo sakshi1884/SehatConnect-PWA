@@ -41,17 +41,37 @@ export default function PatientDashboard() {
     }
   };
 
-  const loadCheckups = () => {
-    const all = JSON.parse(localStorage.getItem("checkups")) || {};
-    const arr = all[pid] || [];
+  const loadCheckups = async () => {
+  try {
+    const token = localStorage.getItem("token");
 
-    const sorted = [...arr].sort(
-      (a, b) => new Date(a.date) - new Date(b.date)
+    const res = await fetch(
+      `https://sehatconnect-pwa-4.onrender.com/api/checkups/${pid}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
 
-    setCheckups(sorted);
-    setLatest(sorted[sorted.length - 1]);
-  };
+    const data = await res.json();
+
+    if (res.ok) {
+      const sorted = data.checkups.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+
+      setCheckups(sorted);
+      setLatest(sorted[sorted.length - 1]);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const getRiskClass = (risk) => {
+  if (risk === "High" || risk === "High Risk") return "high";
+  if (risk === "Moderate") return "moderate";
+  return "normal";
+};
 
   const getAge = (dob) => {
     if (!dob) return "-";
@@ -110,35 +130,62 @@ export default function PatientDashboard() {
         </div>
 
         {latest && (
-          <div className="metrics-grid">
+  <div className="metrics-grid">
 
-            <div className={`card ${getColor("temp", latest.temperature)}`}>
-              <p>Temperature</p>
-              <h3>{latest.temperature}°F</h3>
-            </div>
+    <div className={`card ${getColor("temp", latest.temperature)}`}>
+      <p>Temperature</p>
+      <h3>{latest.temperature}°F</h3>
+    </div>
 
-            <div className={`card ${getColor("hr", latest.heartRate)}`}>
-              <p>Heart Rate</p>
-              <h3>{latest.heartRate} bpm</h3>
-            </div>
+    <div className={`card ${getColor("hr", latest.heartRate)}`}>
+      <p>Heart Rate</p>
+      <h3>{latest.heartRate} bpm</h3>
+    </div>
 
-            <div className="card normal">
-              <p>Blood Pressure</p>
-              <h3>{latest.systolic}/{latest.diastolic}</h3>
-            </div>
+    <div className="card normal">
+      <p>Blood Pressure</p>
+      <h3>{latest.systolic}/{latest.diastolic}</h3>
+    </div>
 
-            <div className={`card ${getColor("spo2", latest.spo2)}`}>
-              <p>SpO₂</p>
-              <h3>{latest.spo2}%</h3>
-            </div>
+    <div className={`card ${getColor("spo2", latest.spo2)}`}>
+      <p>SpO₂</p>
+      <h3>{latest.spo2}%</h3>
+    </div>
 
-            <div className="card normal">
-              <p>BMI</p>
-              <h3>{latest.bmi}</h3>
-            </div>
+    <div className="card normal">
+      <p>BMI</p>
+      <h3>{latest.bmi?.toFixed(1)}</h3>
+    </div>
 
-          </div>
-        )}
+    {/* 🔥 NEW CARDS */}
+
+    <div className="card normal">
+      <p>Pulse Pressure</p>
+      <h3>{latest.pulsePressure}</h3>
+    </div>
+
+    <div className="card normal">
+      <p>MAP</p>
+      <h3>{latest.map?.toFixed(1)}</h3>
+    </div>
+
+    <div className="card normal">
+      <p>HRV</p>
+      <h3>{latest.hrv}</h3>
+    </div>
+    
+    <div className="ai-section">
+  <div className={`card ai-card ${getRiskClass(latest.riskLevel)}`}>
+    <p>Overall Health (AI)</p>
+    <h2>{latest.riskLevel}</h2>
+  </div>
+</div>
+
+  </div>
+
+)}
+{/* 🔥 Separate AI Section */}
+
 
         {checkups.length > 0 && (
           <div className="chart-box">

@@ -45,7 +45,7 @@ export default function PatientInfo() {
       <HNavbar />
 
       <div className="info-container">
-        <button className="back-btn" onClick={() => navigate(-1)}>
+        <button className="back-btn" onClick={() => navigate(`/healthworker/${id}/patient/${pid}/dashboard`)}>
           ← Back
         </button>
 

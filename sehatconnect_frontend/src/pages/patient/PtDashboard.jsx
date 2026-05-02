@@ -103,11 +103,11 @@ export default function PtDashboard() {
           </div>
 
           <div className="header-actions">
-            <button onClick={() => navigate("/patient/history")}>
+            <button onClick={() => navigate(`/patient/${pid}/history`)}>
               History
             </button>
 
-            <button onClick={() => navigate("/patient/profile")}>
+            <button onClick={() => navigate(`/patient/${pid}/profile`)}>
               Profile
             </button>
           </div>

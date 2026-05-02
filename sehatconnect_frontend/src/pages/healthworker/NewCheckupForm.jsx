@@ -127,7 +127,7 @@ export default function NewCheckupForm() {
 
       <div className="add-patient-container">
         <div className="header-row">
-          <button onClick={() => navigate(-1)} className="back-btn">
+          <button onClick={() => navigate(`/healthworker/${id}/patient/${pid}/dashboard`)} className="back-btn">
             ← Back
           </button>
           <h2>Monthly Health Checkup</h2>
