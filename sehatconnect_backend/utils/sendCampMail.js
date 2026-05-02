@@ -1,14 +1,4 @@
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "a9e4eb001@smtp-brevo.com",
-    pass: process.env.SMTP_PASS,
-  },
-});
+import axios from "axios";
 
 export const sendCampNotificationMail = async ({
   to,
@@ -18,30 +8,66 @@ export const sendCampNotificationMail = async ({
   location,
   description,
 }) => {
-  const mailOptions = {
-    from: `"SehatConnect"<sehatconnect438@gmail.com>`, 
-    to,
-    subject: `📢 New Health Camp: ${campName}`,
-    html: `
-      <h2>📢 New Health Camp Scheduled</h2>
-      <p>Hello,</p>
+  try {
+    console.log("📩 Sending camp notification via Brevo API...");
 
-      <p>A new health camp has been scheduled.</p>
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "SehatConnect",
+          email: "sehatconnect438@gmail.com",
+        },
 
-      <p><b>Camp Name:</b> ${campName}</p>
-      <p><b>Date:</b> ${date}</p>
-      <p><b>Time:</b> ${time}</p>
-      <p><b>Location:</b> ${location}</p>
+        to: [
+          {
+            email: to,
+          },
+        ],
 
-      <p><b>Description:</b></p>
-      <p>${description}</p>
+        subject: `📢 New Health Camp: ${campName}`,
 
-      <br/>
-      <p>Please make sure to be available.</p>
+        htmlContent: `
+          <h2>📢 New Health Camp Scheduled</h2>
 
-      <p>Regards,<br/>SehatConnect Team</p>
-    `,
-  };
+          <p>Hello,</p>
 
-  return await transporter.sendMail(mailOptions);
+          <p>A new health camp has been scheduled. Please find the details below:</p>
+
+          <hr/>
+
+          <p><b>Camp Name:</b> ${campName}</p>
+          <p><b>Date:</b> ${date}</p>
+          <p><b>Time:</b> ${time}</p>
+          <p><b>Location:</b> ${location}</p>
+
+          <p><b>Description:</b></p>
+          <p>${description}</p>
+
+          <hr/>
+
+          <p>Please make sure to be available.</p>
+
+          <br/>
+          <p>Regards,<br/><b>SehatConnect Team</b></p>
+        `,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("✅ NOTIFICATION EMAIL SENT:", response.data);
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "❌ NOTIFICATION EMAIL ERROR:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
 };

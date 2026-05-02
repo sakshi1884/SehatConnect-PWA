@@ -1,14 +1,4 @@
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "a9e4eb001@smtp-brevo.com",
-    pass: process.env.SMTP_PASS,
-  },
-});
+import axios from "axios";
 
 export const sendCampReminderMail = async ({
   to,
@@ -19,28 +9,63 @@ export const sendCampReminderMail = async ({
   time,
   location,
 }) => {
-  const mailOptions = {
-    from: `"SehatConnect"<sehatconnect438@gmail.com>`,
-    to,
-    subject: `⏰ Reminder: ${campName} in ${daysLeft} day(s)`,
-    html: `
-      <h2>⏰ Health Camp Reminder</h2>
-      <p>Hello <b>${fullName}</b>,</p>
+  try {
+    console.log("📩 Sending camp reminder via Brevo API...");
 
-      <p>This is a reminder that the health camp is scheduled soon.</p>
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "SehatConnect",
+          email: "sehatconnect438@gmail.com",
+        },
+        to: [
+          {
+            email: to,
+            name: fullName,
+          },
+        ],
+        subject: `⏰ Reminder: ${campName} in ${daysLeft} day(s)`,
 
-      <p><b>Camp:</b> ${campName}</p>
-      <p><b>In:</b> ${daysLeft} day(s)</p>
-      <p><b>Date:</b> ${date}</p>
-      <p><b>Time:</b> ${time}</p>
-      <p><b>Location:</b> ${location}</p>
+        htmlContent: `
+          <h2>⏰ Health Camp Reminder</h2>
 
-      <br/>
-      <p>Please ensure your availability.</p>
+          <p>Hello <b>${fullName}</b>,</p>
 
-      <p>Regards,<br/>SehatConnect Team</p>
-    `,
-  };
+          <p>This is a reminder that your health camp is coming up soon.</p>
 
-  return await transporter.sendMail(mailOptions);
+          <hr/>
+
+          <p><b>Camp Name:</b> ${campName}</p>
+          <p><b>Days Left:</b> ${daysLeft}</p>
+          <p><b>Date:</b> ${date}</p>
+          <p><b>Time:</b> ${time}</p>
+          <p><b>Location:</b> ${location}</p>
+
+          <hr/>
+
+          <p>Please make sure to attend on time.</p>
+
+          <br/>
+          <p>Regards,<br/><b>SehatConnect Team</b></p>
+        `,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("✅ REMINDER EMAIL SENT:", response.data);
+    return response.data;
+
+  } catch (error) {
+    console.error(
+      "❌ REMINDER EMAIL ERROR:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
 };

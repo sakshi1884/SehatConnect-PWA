@@ -15,7 +15,7 @@ export const sendCredentialsMail = async ({
       {
         sender: {
           name: "SehatConnect",
-          email: "sehatconnect438@gmail.com", // must be verified sender
+          email: "sehatconnect438@gmail.com", 
         },
         to: [
           {

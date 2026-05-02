@@ -2,8 +2,8 @@ import HealthCamp from "../models/HealthCamp.js";
 import Doctor from "../models/Doctor.js";
 import HealthWorker from "../models/Healthworker.js";
 import Patient from "../models/Patient.js";
-// import { sendCampReminderMail } from "../utils/sendCampReminderMail.js";
-// import { sendCampNotificationMail } from "../utils/sendCampMail.js";
+import { sendCampReminderMail } from "../utils/sendCampReminderMail.js";
+import { sendCampNotificationMail } from "../utils/sendCampMail.js";
 
 /* =========================
    GET ALL HEALTH CAMPS
@@ -44,22 +44,21 @@ export const createHealthCamp = async (req, res) => {
     const patients = await Patient.find().select("email fullName");
     const allUsers = [...doctors, ...healthworkers, ...patients];
 
-    // ✅ Send emails (non-blocking safe loop)
-    // for (const user of allUsers) {
-    //   try {
-    //     await sendCampNotificationMail({
-    //       to: user.email,
-    //       campName: name,
-    //       date,
-    //       time,
-    //       location,
-    //       description,
-    //     });
-    //   } catch (mailErr) {
-    //     console.log("MAIL FAILED:", user.email);
-    //     console.log("ERROR:", mailErr.message);
-    //   }
-    // }
+    for (const user of allUsers) {
+      try {
+        await sendCampNotificationMail({
+          to: user.email,
+          campName: name,
+          date,
+          time,
+          location,
+          description,
+        });
+      } catch (mailErr) {
+        console.log("MAIL FAILED:", user.email);
+        console.log("ERROR:", mailErr.message);
+      }
+    }
 
     res.status(201).json(newCamp);
   } catch (err) {
@@ -108,45 +107,45 @@ export const deleteHealthCamp = async (req, res) => {
 /* =========================
   REMINDER HEALTH CAMP
    ========================= */
-  //  export const sendCampReminder = async (req, res) => {
-  // try {
-  //   const { id } = req.params;
+   export const sendCampReminder = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  //   const camp = await HealthCamp.findById(id);
-  //   if (!camp) {
-  //     return res.status(404).json({ message: "Camp not found" });
-  //   }
+    const camp = await HealthCamp.findById(id);
+    if (!camp) {
+      return res.status(404).json({ message: "Camp not found" });
+    }
 
-  //   const healthworkers = await HealthWorker.find().select("email fullName");
+    const healthworkers = await HealthWorker.find().select("email fullName");
 
-  //   const campDate = new Date(camp.date);
-  //   const today = new Date();
+    const campDate = new Date(camp.date);
+    const today = new Date();
 
-  //   const diffTime = campDate - today;
-  //   const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffTime = campDate - today;
+    const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  //   for (const hw of healthworkers) {
-  //     try {
-  //       await sendCampReminderMail({
-  //         to: hw.email,
-  //         fullName: hw.fullName,
-  //         campName: camp.name,
-  //         daysLeft,
-  //         date: camp.date,
-  //         time: camp.time,
-  //         location: camp.location,
-  //       });
-  //     } catch (err) {
-  //       console.log("REMINDER FAILED:", hw.email);
-  //       console.log("ERROR:", err.message);
-  //     }
-  //   }
+    for (const hw of healthworkers) {
+      try {
+        await sendCampReminderMail({
+          to: hw.email,
+          fullName: hw.fullName,
+          campName: camp.name,
+          daysLeft,
+          date: camp.date,
+          time: camp.time,
+          location: camp.location,
+        });
+      } catch (err) {
+        console.log("REMINDER FAILED:", hw.email);
+        console.log("ERROR:", err.message);
+      }
+    }
 
-//     res.status(200).json({
-//       message: "Reminder sent successfully ✅",
-//     });
-//   } catch (err) {
-//     console.error("REMINDER ERROR:", err);
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+    res.status(200).json({
+      message: "Reminder sent successfully ✅",
+    });
+  } catch (err) {
+    console.error("REMINDER ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+};

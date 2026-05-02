@@ -233,26 +233,26 @@ export const updateDoctorProfile = async (req, res) => {
 /* =========================================================
    SEND CREDENTIALS
 ========================================================= */
-export const sendDoctorCredentials = async (req, res) => {
-  try {
-    const doctor = await Doctor.findById(req.params.id);
+// export const sendDoctorCredentials = async (req, res) => {
+//   try {
+//     const doctor = await Doctor.findById(req.params.id);
 
-    if (!doctor) {
-      return res.status(404).json({ message: "Doctor not found" });
-    }
+//     if (!doctor) {
+//       return res.status(404).json({ message: "Doctor not found" });
+//     }
 
-    await sendCredentialsMail({
-      to: doctor.email,
-      fullName: doctor.fullName,
-      role: "Doctor",
-      email: doctor.email,
-      password: "Use your existing password",
-    });
+//     await sendCredentialsMail({
+//       to: doctor.email,
+//       fullName: doctor.fullName,
+//       role: "Doctor",
+//       email: doctor.email,
+//       password: "Use your existing password",
+//     });
 
-    res.json({ message: "Sent" });
+//     res.json({ message: "Sent" });
 
-  } catch (error) {
-    console.error("❌ SEND MAIL ERROR:", error);
-    res.status(500).json({ message: error.message });
-  }
-};
+//   } catch (error) {
+//     console.error("❌ SEND MAIL ERROR:", error);
+//     res.status(500).json({ message: error.message });
+//   }
+// };
