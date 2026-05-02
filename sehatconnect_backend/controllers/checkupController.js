@@ -1,5 +1,5 @@
 import Checkup from "../models/checkup.js";
-import { spawn } from "child_process";0
+import { spawn } from "child_process";
 import path from "path";
 
 // ================= ADD CHECKUP =================
@@ -26,7 +26,17 @@ export const addCheckup = async (req, res) => {
     const bmi =
       weight && height ? weight / (height * height) : null;
 
-    const hrv = 50; // placeholder (can improve later)
+    const lastCheckup = await Checkup.findOne({
+  patientId: req.params.patientId,
+}).sort({ date: -1 });
+
+let hrv;
+
+if (lastCheckup?.heartRate) {
+  hrv = Math.abs(heartRate - lastCheckup.heartRate) / heartRate;
+} else {
+  hrv = 0.05; // fallback for first checkup
+}
 
     // ================= FEATURE ARRAY FOR AI =================
     const features = [

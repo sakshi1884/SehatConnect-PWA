@@ -30,6 +30,9 @@ export const sendCredentialsMail = async ({
           <p>Your <b>${role}</b> account has been created successfully.</p>
           <p><b>Email:</b> ${email}</p>
           <p><b>Password:</b> ${password}</p>
+          <p>Please log in and change your password immediately for security reasons.</p>
+          <br/>
+          <p>Regards,<br/><b>SehatConnect Team</b></p>
         `,
       },
       {
