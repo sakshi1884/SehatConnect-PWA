@@ -16,7 +16,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       try {
         const res = await API.get("/admin/profile");
 
-        console.log("✅ Sidebar API response:", res.data);
+        //console.log("✅ Sidebar API response:", res.data);
 
         // ✅ FIX: extract admin object only
         const adminData = res.data.admin || res.data;
