@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./StyleSheets/AdminDashboard.css";
 import Navbar from "../../components/PNavbar";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const { id } = useParams(); // ✅ needed for navigation
+
   const [doctorCount, setDoctorCount] = useState(0);
   const [healthworkerCount, setHealthworkerCount] = useState(0);
 
@@ -16,11 +18,20 @@ const AdminDashboard = () => {
     try {
       console.log("Fetching counts...");
 
-      const doctorRes = await fetch("https://sehatconnect-pwa-4.onrender.com/api/doctors/count");
-      const healthRes = await fetch("hhttps://sehatconnect-pwa-4.onrender.com/api/healthworkers/count");
+      const doctorRes = await fetch(
+        "https://sehatconnect-pwa-4.onrender.com/api/doctors/count"
+      );
+
+      const healthRes = await fetch(
+        "https://sehatconnect-pwa-4.onrender.com/api/healthworkers/count" // ✅ FIXED
+      );
 
       console.log("Doctor API Status:", doctorRes.status);
       console.log("Health API Status:", healthRes.status);
+
+      if (!doctorRes.ok || !healthRes.ok) {
+        throw new Error("API request failed");
+      }
 
       const doctorData = await doctorRes.json();
       const healthData = await healthRes.json();
@@ -28,10 +39,14 @@ const AdminDashboard = () => {
       console.log("Doctor Data:", doctorData);
       console.log("Healthworker Data:", healthData);
 
-      setDoctorCount(doctorData.count);
-      setHealthworkerCount(healthData.count);
+      // ✅ Flexible handling (in case backend structure differs)
+      setDoctorCount(doctorData.count ?? doctorData ?? 0);
+      setHealthworkerCount(healthData.count ?? healthData ?? 0);
+
     } catch (err) {
       console.error("❌ Failed to fetch counts", err);
+      setDoctorCount(0);
+      setHealthworkerCount(0);
     }
   };
 
@@ -39,12 +54,7 @@ const AdminDashboard = () => {
     <div className="dashboard-container">
       <Navbar />
 
-      {/* ✅ ONLY CHANGE: layout wrapper */}
       <div className="main-layout">
-        
-        {/* If you add sidebar later, it goes here */}
-        {/* <div className="sidebar"></div> */}
-
         <div className="admin-dashboard">
           <h2>Dashboard</h2>
           <p className="location">Location: Primary HealthCare Kolhapur</p>
@@ -55,7 +65,7 @@ const AdminDashboard = () => {
               <h1>{doctorCount}</h1>
               <button
                 className="secondary-btn"
-                onClick={() => navigate("/admin/:id/alldoctors")} // ✅ unchanged
+                onClick={() => navigate(`/admin/${id}/alldoctors`)} // ✅ FIXED
               >
                 All Doctors
               </button>
@@ -66,7 +76,7 @@ const AdminDashboard = () => {
               <h1>{healthworkerCount}</h1>
               <button
                 className="secondary-btn"
-                onClick={() => navigate("/admin/:id/allhealthworkers")} 
+                onClick={() => navigate(`/admin/${id}/allhealthworkers`)} 
               >
                 All Healthworkers
               </button>

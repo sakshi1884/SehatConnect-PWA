@@ -9,6 +9,15 @@ export default function NewCheckupForm() {
   const navigate = useNavigate();
 
   const [flash, setFlash] = useState({ message: "", type: "" });
+  useEffect(() => {
+  if (flash.message) {
+    const timer = setTimeout(() => {
+      setFlash({ message: "", type: "" });
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }
+}, [flash.message]);
 
   const [form, setForm] = useState({
     healthWorkerName: "",
@@ -74,7 +83,7 @@ export default function NewCheckupForm() {
     };
 
     const res = await fetch(
-      `http://localhost:5000/api/checkups/${pid}`,
+      `https://sehatconnect-pwa-4.onrender.com/api/checkups/${pid}`,
       {
         method: "POST",
         headers: {
@@ -98,7 +107,7 @@ export default function NewCheckupForm() {
 
     setTimeout(() => {
       navigate(`/healthworker/${id}/patient/${pid}/history`);
-    }, 1200);
+    }, 2500);
 
   } catch (error) {
     console.error(error);
@@ -114,7 +123,7 @@ export default function NewCheckupForm() {
       <HNavbar />
 
       {/* ✅ FLASH */}
-      <FlashMessage flash={flash} setFlash={setFlash} />
+      <FlashMessage message={flash.message} type={flash.type} /> 
 
       <div className="add-patient-container">
         <div className="header-row">

@@ -26,15 +26,15 @@ const AddHealthworker = () => {
   const [flash, setFlash] = useState({ message: "", type: "" });
 
   // ✅ auto hide flash
-  useEffect(() => {
-    if (flash.message) {
-      const timer = setTimeout(() => {
-        setFlash({ message: "", type: "" });
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [flash]);
+ useEffect(() => {
+   if (flash.message) {
+     const timer = setTimeout(() => {
+       setFlash({ message: "", type: "" });
+     }, 3000);
+ 
+     return () => clearTimeout(timer);
+   }
+ }, [flash.message]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

@@ -10,6 +10,16 @@ export default function HWProfile() {
   const [loading, setLoading] = useState(true);
   const [flash, setFlash] = useState({ message: "", type: "" });
 
+  useEffect(() => {
+  if (flash.message) {
+    const timer = setTimeout(() => {
+      setFlash({ message: "", type: "" });
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }
+}, [flash.message]);
+
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -167,7 +177,7 @@ export default function HWProfile() {
       <HNavbar />
 
       {/* ✅ FLASH MESSAGE */}
-      <FlashMessage flash={flash} setFlash={setFlash} />
+      <FlashMessage message={flash.message} type={flash.type} /> 
 
       <div className="hw-layout">
         <HealthworkerSidebar />

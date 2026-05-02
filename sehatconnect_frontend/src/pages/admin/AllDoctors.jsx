@@ -13,14 +13,14 @@ const AllDoctors = () => {
   }, []);
 
   useEffect(() => {
-    if (flash.message) {
-      const timer = setTimeout(() => {
-        setFlash({ message: "", type: "" });
-      }, 3000);
+  if (flash.message) {
+    const timer = setTimeout(() => {
+      setFlash({ message: "", type: "" });
+    }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [flash]);
+    return () => clearTimeout(timer);
+  }
+}, [flash.message]);
 
   const fetchDoctors = async () => {
     try {

@@ -48,7 +48,7 @@ const Login = () => {
 
       const res = await API.post(endpoint, { email, password });
 
-      console.log("✅ Login Response:", res.data);
+  
 
       let userData;
 
@@ -143,7 +143,7 @@ const Login = () => {
 
       
 
-      console.log("✅ Saved to localStorage successfully");
+    
 
       // =========================
       // NAVIGATE

@@ -19,11 +19,21 @@ export default function AddPatient() {
   const [addedByName, setAddedByName] = useState("");
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
 
   // ✅ Flash state
   const [flash, setFlash] = useState({ message: "", type: "" });
+
+  /* ================= AUTO HIDE FLASH ================= */
+  useEffect(() => {
+    if (flash.message) {
+      const timer = setTimeout(() => {
+        setFlash({ message: "", type: "" });
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [flash.message]);
 
   useEffect(() => {
     const profile = JSON.parse(localStorage.getItem("healthworkerProfile"));
@@ -99,14 +109,14 @@ export default function AddPatient() {
         type: "success",
       });
 
-      // ⏳ slight delay so user can see message
+      // ⏳ better delay so user sees message
       setTimeout(() => {
         const hwProfile = JSON.parse(
           localStorage.getItem("healthworkerProfile")
         );
 
         navigate(`/healthworker/${hwProfile._id}/allpatients`);
-      }, 1500);
+      }, 2500);
 
     } catch (error) {
       console.error("PATIENT REGISTER ERROR:", error);
@@ -130,10 +140,10 @@ export default function AddPatient() {
         <h2>Add Patient</h2>
         <p className="location">Location: Primary HealthCare Kolhapur</p>
 
+        {/* ✅ FLASH OUTSIDE FORM */}
+        <FlashMessage message={flash.message} type={flash.type} />
+
         <form className="add-patient-form" onSubmit={handleSubmit}>
-          
-          {/* ✅ Flash Message */}
-          <FlashMessage flash={flash} setFlash={setFlash} />
 
           <label>Full Name</label>
           <input
@@ -163,7 +173,6 @@ export default function AddPatient() {
             required
           />
 
-          {/* 🔥 PASSWORD WITH EYE TOGGLE */}
           <label>Password</label>
           <div style={{ position: "relative", width: "100%" }}>
             <input

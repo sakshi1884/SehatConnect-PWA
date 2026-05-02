@@ -153,24 +153,24 @@ export default function AdminHealthCamps() {
   };
 
   /* ================= REMINDER ================= */
-  // const handleSendReminder = async (camp) => {
-  //   try {
-  //     const res = await fetch(
-  //       `https://sehatconnect-pwa-4.onrender.com/api/healthcamps/send-reminder/${camp._id}`,
-  //       { method: "POST" }
-  //     );
+  const handleSendReminder = async (camp) => {
+    try {
+      const res = await fetch(
+        `https://sehatconnect-pwa-4.onrender.com/api/healthcamps/send-reminder/${camp._id}`,
+        { method: "POST" }
+      );
 
-  //     const data = await res.json();
+      const data = await res.json();
 
-  //     setFlash({
-  //       message: data.message || "Reminder sent 📧",
-  //       type: "success",
-  //     });
-  //   } catch (err) {
-  //     console.error("REMINDER ERROR:", err);
-  //     setFlash({ message: "Failed to send reminder ❌", type: "error" });
-  //   }
-  // };
+      setFlash({
+        message: data.message || "Reminder sent 📧",
+        type: "success",
+      });
+    } catch (err) {
+      console.error("REMINDER ERROR:", err);
+      setFlash({ message: "Failed to send reminder ❌", type: "error" });
+    }
+  };
 
   /* ================= SPLIT ================= */
   const upcomingCamps = allCamps.filter(
@@ -223,9 +223,9 @@ export default function AdminHealthCamps() {
                   <Trash2 size={18} />
                 </button>
 
-                {/* <button className="icon-btn mail" onClick={() => handleSendReminder(c)}>
+                <button className="icon-btn mail" onClick={() => handleSendReminder(c)}>
                   <Mail size={18} />
-                </button> */}
+                </button>
               </div>
             </div>
           ))}

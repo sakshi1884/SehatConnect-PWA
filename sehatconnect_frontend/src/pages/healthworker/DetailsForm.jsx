@@ -38,6 +38,15 @@ export default function PatientDetails() {
 
   // 🔥 FLASH STATE
   const [flash, setFlash] = useState({ message: "", type: "" });
+  useEffect(() => {
+  if (flash.message) {
+    const timer = setTimeout(() => {
+      setFlash({ message: "", type: "" });
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }
+}, [flash.message]);
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -142,7 +151,7 @@ export default function PatientDetails() {
 
       setTimeout(() => {
         navigate(`/healthworker/${id}/patient/${pid}/info`);
-      }, 1200);
+      }, 2500);
 
     } catch (err) {
       console.error(err);

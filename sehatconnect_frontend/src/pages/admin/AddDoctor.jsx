@@ -33,14 +33,14 @@ const AddDoctor = () => {
 
   // ✅ auto hide flash
   useEffect(() => {
-    if (flash.message) {
-      const timer = setTimeout(() => {
-        setFlash({ message: "", type: "" });
-      }, 3000);
+  if (flash.message) {
+    const timer = setTimeout(() => {
+      setFlash({ message: "", type: "" });
+    }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [flash]);
+    return () => clearTimeout(timer);
+  }
+}, [flash.message]);  
 
   // ===== HANDLE INPUT CHANGE =====
   const handleChange = (e) => {
@@ -130,6 +130,7 @@ const AddDoctor = () => {
       <Navbar />
 
       <div className="doctor-form-card">
+        <FlashMessage message={flash.message} type={flash.type} />
         <button
           className="back-btn"
           type="button"
@@ -142,8 +143,6 @@ const AddDoctor = () => {
 
         <form onSubmit={handleSubmit} autoComplete="off">
 
-          {/* 🔥 FLASH MESSAGE */}
-          <FlashMessage message={flash.message} type={flash.type} />
 
           <label>Full Name</label>
           <input
