@@ -168,11 +168,6 @@ const getRiskClass = (risk) => {
       <p>MAP</p>
       <h3>{latest.map?.toFixed(1)}</h3>
     </div>
-
-    <div className="card normal">
-      <p>HRV</p>
-      <h3>{latest.hrv}</h3>
-    </div>
     
     <div className="ai-section">
   <div className={`card ai-card ${getRiskClass(latest.riskLevel)}`}>
@@ -184,7 +179,7 @@ const getRiskClass = (risk) => {
   </div>
 
 )}
-{/* 🔥 Separate AI Section */}
+
 
 
         {checkups.length > 0 && (

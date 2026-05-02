@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./PtSidebar";
 import "./Stylesheets/PtNavbar.css";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const PtNavbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profile, setProfile] = useState({}); 
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -40,14 +43,18 @@ const PtNavbar = () => {
           </h2>
         </div>
 
+        <div className="navbar-lang">
+    <LanguageSwitcher />
+  </div>
 
         <div className="navbar-right">
+          
           <a
             onClick={() => {
               if (ptId) navigate(`/patient/${ptId}/profile`);
             }}
           >
-            Profile
+            {t("profile")}
           </a>
 
           <a
@@ -58,7 +65,7 @@ const PtNavbar = () => {
               navigate("/login");
             }}
           >
-            Logout
+            {t("logout")}
           </a>
         </div>
       </nav>

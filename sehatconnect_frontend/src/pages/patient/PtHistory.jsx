@@ -2,9 +2,11 @@ import "./Stylesheets/PtHistory.css";
 import PtNavbar from "./PtNavbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function PtHistory() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [patient, setPatient] = useState(null);
   const [checkups, setCheckups] = useState([]);
@@ -57,21 +59,21 @@ export default function PtHistory() {
       <div className="details-container">
 
         <button className="back-btn" onClick={() => navigate(-1)}>
-          ← Back
+          ← {t("back")}
         </button>
 
         {/* HEADER */}
         <div className="details-header">
           <div>
             <h2>{patient?.fullName || "Patient"}</h2>
-            <p>Email: {patient?.email || "—"}</p>
+            <p>{t("email")}: {patient?.email || "—"}</p>
           </div>
         </div>
 
         {/* CHECKUPS */}
         <div className="checkup-section">
           {checkups.length === 0 ? (
-            <p className="no-data">No Checkup details available</p>
+            <p className="no-data">{t("no_history")}</p>
           ) : (
             checkups.map((c, index) => (
               <div key={index} className="checkup-card">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
+import { useTranslation } from "react-i18next";
 import "./Stylesheets/Patient.css";
 import heroImg from "../../assets/images/heroo.png";
 import PtNavbar from "./PtNavbar"; 
@@ -7,6 +8,8 @@ import PtSidebar from "./PtSidebar";
 
 const Patient = () => {
   const navigate = useNavigate(); 
+  const { t } = useTranslation();
+
   const [ptData, setPtData] = useState({
     _id: "",
     fullName: "",
@@ -15,18 +18,17 @@ const Patient = () => {
   });
 
   useEffect(() => {
-  const stored = JSON.parse(localStorage.getItem("patientData"));
+    const stored = JSON.parse(localStorage.getItem("patientData"));
 
-  if (stored?.patient) {
-    setPtData({
-      _id: stored.patient._id,
-      fullName: stored.patient.fullName,
-      gender: stored.patient.gender,
-      email: stored.patient.email,
-    });
-  }
-}, []);
-
+    if (stored?.patient) {
+      setPtData({
+        _id: stored.patient._id,
+        fullName: stored.patient.fullName,
+        gender: stored.patient.gender,
+        email: stored.patient.email,
+      });
+    }
+  }, []);
 
   return (
     <div className="patient-dashboard">
@@ -38,12 +40,13 @@ const Patient = () => {
         <div className="patient-main">
           <div className="patient-content">
             <div className="patient-left">
+
               <h1 className="welcome-text">
-                Welcome {ptData.fullName}
+                {t("welcome")} {ptData.fullName}
               </h1>
 
               <p className="patient-tagline">
-                Streamline patient care, organize health camps, and manage records all in one powerful platform designed for healthcare professionals.
+                {t("patient_tagline")}
               </p>
 
               <div className="patient-buttons">
@@ -51,20 +54,23 @@ const Patient = () => {
                   className="btn-primary"
                   onClick={() => navigate(`/patient/${ptData._id}/dashboard`)}
                 >
-                  Dashboard
+                  {t("dashboard")}
                 </button>
+
                 <button
                   className="btn-primary"
                   onClick={() => navigate(`/patient/${ptData._id}/history`)}
                 >
-                  History
+                  {t("history")}
                 </button>
               </div>
+
             </div>
 
             <div className="patient-right">
               <img src={heroImg} alt="Patient illustration" />
             </div>
+
           </div>
         </div>
       </div>

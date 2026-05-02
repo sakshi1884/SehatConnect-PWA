@@ -2,6 +2,7 @@ import "./Stylesheets/PtDashboard.css";
 import PtNavbar from "./PtNavbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   LineChart,
@@ -14,6 +15,7 @@ import {
 
 export default function PtDashboard() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [patient, setPatient] = useState({});
   const [checkups, setCheckups] = useState([]);
@@ -99,16 +101,16 @@ export default function PtDashboard() {
         <div className="dashboard-header">
           <div>
             <h2>{patient.fullName}</h2>
-            <p>Age: {getAge(patient.dob)}</p>
+            <p>{t("Age")}: {getAge(patient.dob)}</p>
           </div>
 
           <div className="header-actions">
             <button onClick={() => navigate(`/patient/${pid}/history`)}>
-              History
+              {t("history")}
             </button>
 
             <button onClick={() => navigate(`/patient/${pid}/profile`)}>
-              Profile
+              {t("profile")}
             </button>
           </div>
         </div>
@@ -118,50 +120,46 @@ export default function PtDashboard() {
           <div className="metrics-grid">
 
             <div className={`card ${getColor("temp", latest.temperature)}`}>
-              <p>Temperature</p>
+              <p>{t("temperature")}</p>
               <h3>{latest.temperature}°F</h3>
             </div>
 
             <div className={`card ${getColor("hr", latest.heartRate)}`}>
-              <p>Heart Rate</p>
+              <p>{t("heart_rate")}</p>
               <h3>{latest.heartRate} bpm</h3>
             </div>
 
             <div className="card normal">
-              <p>Blood Pressure</p>
+              <p>{t("blood_pressure")}</p>
               <h3>{latest.systolic}/{latest.diastolic}</h3>
             </div>
 
             <div className={`card ${getColor("spo2", latest.spo2)}`}>
-              <p>SpO₂</p>
+              <p>{t("spo2")}</p>
               <h3>{latest.spo2}%</h3>
             </div>
 
             <div className="card normal">
-              <p>BMI</p>
+              <p>{t("bmi")}</p>
               <h3>{latest.bmi?.toFixed(1)}</h3>
             </div>
 
             {/* ✅ NEW METRICS */}
             <div className="card normal">
-              <p>Respiratory Rate</p>
+              <p>{t("respiratory_rate")}</p>
               <h3>{latest.respiratoryRate}</h3>
             </div>
 
             <div className="card normal">
-              <p>Pulse Pressure</p>
+              <p>{t("pulse_pressure")}</p>
               <h3>{latest.pulsePressure}</h3>
             </div>
 
             <div className="card normal">
-              <p>MAP</p>
+              <p>{t("map")}</p>
               <h3>{latest.map?.toFixed(1)}</h3>
             </div>
 
-            <div className="card normal">
-              <p>HRV</p>
-              <h3>{latest.hrv || "-"}</h3>
-            </div>
 
             {/* ✅ AI CARD (NOW FROM DB) */}
             <div className={`card ${
@@ -171,7 +169,7 @@ export default function PtDashboard() {
                 ? "moderate"
                 : "normal"
             }`}>
-              <p>Overall Health (AI)</p>
+              <p>{t("overall_health")}</p>
               <h3>{latest.riskLevel || "Pending"}</h3>
             </div>
 
@@ -181,7 +179,7 @@ export default function PtDashboard() {
         {/* CHART */}
         {checkups.length > 0 && (
           <div className="chart-box">
-            <h4>Heart Rate Trend</h4>
+            <h4>{t("heart_rate_trend")}</h4>
 
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={checkups}>

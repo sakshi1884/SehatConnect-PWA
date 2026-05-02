@@ -2,10 +2,12 @@ import "./Stylesheets/PtDetails.css";
 import PtNavbar from "./PtNavbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function PtDetails() {
   const navigate = useNavigate();
   const [patient, setPatient] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("patientData"));
@@ -51,32 +53,32 @@ export default function PtDetails() {
           <div className="info-grid">
 
             <div className="info-box">
-              <span>Email</span>
+              <span>{t("email")}</span>
               <p>{patient.email}</p>
             </div>
 
             <div className="info-box">
-              <span>Phone</span>
+              <span>{t("phone")}</span>
               <p>{patient.phone || "-"}</p>
             </div>
 
             <div className="info-box">
-              <span>Gender</span>
+              <span>{t("gender")}</span>
               <p>{patient.gender || "-"}</p>
             </div>
 
             <div className="info-box">
-              <span>Age</span>
+              <span>{t("Age")}</span>
               <p>{patient.age || "-"}</p>
             </div>
 
             <div className="info-box">
-              <span>Village</span>
+              <span>{t("village")}</span>
               <p>{patient.village || "-"}</p>
             </div>
 
             <div className="info-box">
-              <span>Address</span>
+              <span>{t("address")}</span>
               <p>{patient.address || "-"}</p>
             </div>
 
@@ -84,8 +86,8 @@ export default function PtDetails() {
 
           {/* MEDICAL SECTION */}
           <div className="medical-box">
-            <h4>Medical History</h4>
-            <p>{patient.pastMedicalConditions || "No history available"}</p>
+            <h4>{t("medical_history")}</h4>
+            <p>{patient.pastMedicalConditions || t("no_history")}</p>
           </div>
 
           

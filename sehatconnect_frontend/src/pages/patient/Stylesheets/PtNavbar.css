@@ -1,14 +1,15 @@
 .navbar {
-  position: sticky; /* or fixed — see below */
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; /* keep it above page content */
-  background:#1e3a8a; /* or your preferred color */
+  z-index: 1000;
+  background: #1e3a8a;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 40px;
+  box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -24,6 +25,8 @@
   color: white;
   font-size: 26px;
   cursor: pointer;
+  z-index: 2000;
+  position: relative;
 }
 
 .navbar-logo {
@@ -34,26 +37,10 @@
   cursor: pointer;
 }
 
-.search-bar {
+.navbar-right {
   display: flex;
   align-items: center;
-  background: white;
-  border-radius: 25px;
-  padding: 5px 10px;
-}
-
-.search-bar input {
-  border: none;
-  outline: none;
-  padding: 6px 10px;
-  font-size: 16px;
-}
-
-.search-bar button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: black;
+  gap: 15px;
 }
 
 .navbar-right a {
@@ -67,4 +54,38 @@
 
 .navbar-right a:hover {
   text-decoration: underline;
+}
+
+.navbar-lang {
+  display: flex;
+  align-items: center;
+  margin-left: auto !important; 
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 15px;
+    flex-wrap: wrap;
+  }
+
+  .navbar-left {
+    flex: 1;
+  }
+
+  .navbar-right {
+    display: none !important; /* force hide */
+  }
+
+  .navbar-logo {
+    font-size: 18px;
+  }
+
+  .menu-icon {
+    font-size: 28px;
+  }
+
+  .navbar-lang {
+    display: flex;
+  }
 }

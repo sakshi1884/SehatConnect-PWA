@@ -2,8 +2,10 @@ import "./Stylesheets/PtProfile.css";
 import FlashMessage from "../../components/FlashMessage";
 import PtNavbar from "./PtNavbar";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function PtProfile() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -117,7 +119,7 @@ export default function PtProfile() {
           {/* ✅ Reusable Flash Component */}
           <FlashMessage flash={flash} setFlash={setFlash} />
 
-          <h2>Edit Profile</h2>
+          <h2>{t("Edit Profile")}</h2>
 
           {/* PHOTO */}
           <div className="photo-section">
@@ -176,7 +178,7 @@ export default function PtProfile() {
             </span>
           </div>
 
-          <button type="submit">Update Profile</button>
+          <button type="submit">{t("Update Profile")}</button>
         </form>
       </div>
     </div>
