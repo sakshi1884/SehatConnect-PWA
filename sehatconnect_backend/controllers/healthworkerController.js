@@ -46,7 +46,7 @@ export const registerHealthworker = async (req, res) => {
       password,
       profilePhoto,
     });
-
+console.log("FINAL STEP BEFORE RESPONSE");
     // send credentials mail
     await sendCredentialsMail({
       to: hw.email,

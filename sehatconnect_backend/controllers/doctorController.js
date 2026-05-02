@@ -5,12 +5,7 @@ import cloudinary from "../config/cloudinary.js";
 import streamifier from "streamifier";
 import { sendCredentialsMail } from "../utils/sendMail.js";
 
-/* =========================================================
-   GLOBAL DEBUG HELPER
-========================================================= */
-const debug = (label, data) => {
-  console.log(`\n🔍 [${label}]`, data);
-};
+
 
 /* =========================================================
    DOCTOR REGISTRATION
@@ -80,44 +75,54 @@ export const registerDoctor = async (req, res) => {
       photoUrl = uploadResult.secure_url;
     }
 
-    /* ================= CREATE ================= */
-    const doctor = await Doctor.create({
-      fullName,
-      email: email.toLowerCase(),
-      phone,
-      gender,
-      dateOfBirth,
-      specialization,
-      qualification: Array.isArray(qualification)
-        ? qualification
-        : JSON.parse(qualification),
-      experience,
-      licenseNumber,
-      medicalCouncil,
-      password, // ✅ RAW PASSWORD (model will hash)
-      photo: photoUrl,
-    });
-    console.log("📩 About to send email...");
-    /* ================= EMAIL ================= */
-    await sendCredentialsMail({
-      to: doctor.email,
-      fullName: doctor.fullName,
-      role: "Doctor",
-      email: doctor.email,
-      password,
-    });
-    console.log("📩 Email function executed");
+   /* ================= CREATE ================= */
+const doctor = await Doctor.create({
+  fullName,
+  email: email.toLowerCase(),
+  phone,
+  gender,
+  dateOfBirth,
+  specialization,
+  qualification:
+    typeof qualification === "string"
+      ? JSON.parse(qualification)
+      : qualification,
+  experience,
+  licenseNumber,
+  medicalCouncil,
+  password, // raw password (hashed in model)
+  photo: photoUrl,
+});
 
-    res.status(201).json({
-      message: "Doctor registered successfully ✅",
-      doctor,
-    });
+console.log("📩 Doctor created successfully");
+console.log("📩 About to send email...");
 
-  } catch (error) {
+/* ================= EMAIL (NON-BLOCKING SAFE) ================= */
+sendCredentialsMail({
+  to: doctor.email,
+  fullName: doctor.fullName,
+  role: "Doctor",
+  email: doctor.email,
+  password,
+})
+  .then(() => {
+    console.log("📩 Email sent successfully");
+  })
+  .catch((err) => {
+    console.log("⚠️ Email failed (non-blocking):", err.message);
+  });
+
+/* ================= RESPONSE ================= */
+return res.status(201).json({
+  message: "Doctor registered successfully ✅",
+  doctor,
+});
+ } catch (error) {
     console.error("❌ REGISTER ERROR:", error);
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
+
 
 /* =========================================================
    DOCTOR LOGIN

@@ -1,14 +1,4 @@
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false, 
-  auth: {
-    user: "a9e4eb001@smtp-brevo.com",
-    pass: process.env.SMTP_PASS, 
-  },
-});
+import axios from "axios";
 
 export const sendCredentialsMail = async ({
   to,
@@ -17,19 +7,44 @@ export const sendCredentialsMail = async ({
   email,
   password,
 }) => {
-  const mailOptions = {
-    from: `"SehatConnect"<sehatconnect438@gmail.com>`,
-    to,
-    subject: `Welcome to SehatConnect - ${role} Account`,
-    html: `
-      <h2>Welcome to SehatConnect</h2>
-      <p>Hello <b>${fullName}</b>,</p>
-      <p>Your <b>${role}</b> account has been created successfully.</p>
-      <p><b>Email:</b> ${email}</p>
-      <p><b>Password:</b> ${password}</p>
-      <p>Please login and change your password after first login.</p>
-    `,
-  };
+  try {
+    console.log("📩 Sending email via Brevo API...");
 
-  return await transporter.sendMail(mailOptions);
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "SehatConnect",
+          email: "sehatconnect438@gmail.com", // must be verified sender
+        },
+        to: [
+          {
+            email: to,
+            name: fullName,
+          },
+        ],
+        subject: `Welcome to SehatConnect - ${role} Account`,
+        htmlContent: `
+          <h2>Welcome to SehatConnect</h2>
+          <p>Hello <b>${fullName}</b>,</p>
+          <p>Your <b>${role}</b> account has been created successfully.</p>
+          <p><b>Email:</b> ${email}</p>
+          <p><b>Password:</b> ${password}</p>
+        `,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("✅ EMAIL SENT:", response.data);
+    return response.data;
+
+  } catch (error) {
+    console.log("❌ EMAIL API ERROR:", error.response?.data || error.message);
+    throw error;
+  }
 };

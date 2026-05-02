@@ -6,10 +6,10 @@ import Patient from "../models/Patient.js";
 
 export default async function authMiddleware(req, res, next) {
   try {
-    console.log("🔐 Auth middleware triggered");
+    // console.log("🔐 Auth middleware triggered");
 
     const token = req.headers.authorization?.split(" ")[1];
-    console.log("Token:", token);
+    // console.log("Token:", token);
 
     if (!token) {
       return res.status(401).json({
@@ -19,7 +19,7 @@ export default async function authMiddleware(req, res, next) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded:", decoded);
+    // console.log("Decoded:", decoded);
 
     let user = null;
 
@@ -37,7 +37,7 @@ export default async function authMiddleware(req, res, next) {
   user = await Patient.findById(decoded.id).select("-password");
 }
 
-    console.log("User found:", user);
+    // onsole.log("User found:", user);
 
     if (!user) {
       return res.status(401).json({
@@ -52,7 +52,7 @@ export default async function authMiddleware(req, res, next) {
 
     next();
   } catch (err) {
-    console.error("AUTH ERROR:", err);
+    // console.error("AUTH ERROR:", err);
 
     res.status(401).json({
       success: false,
