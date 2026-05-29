@@ -1,9 +1,14 @@
-    import express from "express";
-    import { predictAllModels } from "../controllers/modelController.js";
+import express from "express";
+import { predictAllModels } from "../controllers/modelController.js";
 
-    const router = express.Router();
+const router = express.Router();
 
-    router.post("/predict-all-models", predictAllModels);
+router.post("/predict-all-models", async (req, res) => {
 
+  console.log("PREDICT ROUTE HIT");
 
-    export default router;
+  return predictAllModels(req, res);
+
+});
+
+export default router;
