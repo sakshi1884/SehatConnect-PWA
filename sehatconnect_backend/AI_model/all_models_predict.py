@@ -5,7 +5,7 @@ import joblib
 import time
 import os
 import lightgbm as lgb
-
+print("🚨 PYTHON FILE EXECUTING: all_models_predict.py")
 BASE_DIR = os.path.dirname(__file__)
 
 # =========================
@@ -62,7 +62,7 @@ models = {
 }
 
 try:
-    print("🚨 PYTHON FILE EXECUTING: all_models_predict.py")
+    
 
     input_json = sys.stdin.read()
 

@@ -2,7 +2,7 @@ import express from "express";
 import { spawn } from "child_process";
 
 import Checkup from "../models/checkup.js";
-import Patient from "../models/patient.js";
+import Patient from "../models/Patient.js";
 
 const router = express.Router();
 
