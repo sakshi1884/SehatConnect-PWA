@@ -71,7 +71,13 @@ app.use("/api/patients", patientRouter);
 app.use("/api/checkups", checkupRoutes);
 app.use("/api/predict", predictRoutes);
 app.use("/api", analysisRoute);
-app.use("/api/models", modelRoutes);
+app.use("/api/models", (req, res, next) => {
+
+  console.log("MODELS ROUTE MIDDLEWARE HIT");
+
+  next();
+
+});
 /* ================= SERVER START ================= */
 const PORT = process.env.PORT || 5000;
 
