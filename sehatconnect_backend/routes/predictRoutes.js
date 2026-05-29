@@ -57,7 +57,7 @@ router.get("/:pid", async (req, res) => {
 
     // 🔥 Run Python model
     const python = spawn("python3", [
-      "../ai_model/predict.py"
+      "../predict.py"
     ]);
 
     let output = "";
