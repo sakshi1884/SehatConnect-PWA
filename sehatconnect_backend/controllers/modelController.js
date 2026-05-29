@@ -122,7 +122,9 @@ export const predictAllModels = async (req, res) => {
             "Failed to parse prediction result",
 
           raw:
-            result
+            result,
+
+          stderr: errorOutput
 
         });
 
