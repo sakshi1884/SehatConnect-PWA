@@ -1,4 +1,4 @@
-import "./config/env.js";   // ✅ MUST BE FIRST
+import "./config/env.js";   
 
 import express from "express";
 import cors from "cors";
@@ -14,6 +14,8 @@ import healthCampRoutes from "./routes/healthCampRoutes.js";
 import patientRouter from "./routes/patientRoute.js";
 import checkupRoutes from "./routes/checkupRoutes.js";
 import predictRoutes from "./routes/predictRoutes.js";
+import analysisRoute from "./routes/analysisRoute.js";
+import modelRoutes from "./routes/modelRoutes.js";
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
@@ -39,6 +41,7 @@ process.on("unhandledRejection", (reason, promise) => {
 app.get("/", (req, res) => {
   res.send("SehatConnect Backend Running ✅");
 });
+
 
 app.get("/test-python", (req, res) => {
   const p = spawn("python3", ["-c", "print('PYTHON WORKING')"]);
@@ -67,13 +70,15 @@ app.use("/api/healthcamps", healthCampRoutes);
 app.use("/api/patients", patientRouter);
 app.use("/api/checkups", checkupRoutes);
 app.use("/api/predict", predictRoutes);
+app.use("/api", analysisRoute);
+app.use("/api/models", modelRoutes);
 /* ================= SERVER START ================= */
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
     console.log("MONGO_URL:", process.env.MONGO_URL);
-    await connectDB(); // ✅ WAIT for MongoDB
+    await connectDB(); 
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);

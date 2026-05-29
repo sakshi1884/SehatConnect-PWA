@@ -1,34 +1,122 @@
-import { spawn } from "child_process";
+const { spawn } = require("child_process");
+const path = require("path");
 
-export const predictRisk = (req, res) => {
-  const python = spawn("python3", ["predict.py"]);
+exports.predictRisk = async (req, res) => {
 
-  const input = JSON.stringify({
-    features: req.body.features
-  });
+  try {
 
-  let output = "";
+    const patient = req.patient;
 
-  python.stdout.on("data", (data) => {
-    output += data.toString();
-  });
+    if (!patient || !patient.checkups.length) {
 
-  python.stderr.on("data", (data) => {
-    console.error("PYTHON ERROR:", data.toString());
-  });
-
-  python.on("close", () => {
-    try {
-      res.json(JSON.parse(output));
-    } catch (err) {
-      res.status(500).json({
-        error: "Invalid Python output",
-        raw: output
+      return res.status(400).json({
+        message: "No checkups found"
       });
-    }
-  });
 
-  // 🔥 THIS FIX ENABLES DATA FLOW
-  python.stdin.write(input);
-  python.stdin.end();
+    }
+
+    const latest =
+      patient.checkups[
+        patient.checkups.length - 1
+      ];
+
+    const features = [
+
+      latest.heartRate || 0,
+      latest.respiratoryRate || 0,
+      latest.temperature || 0,
+      latest.spo2 || 0,
+      latest.systolic || 0,
+      latest.diastolic || 0,
+      patient.age || 0,
+      patient.gender === "Male" ? 1 : 0,
+      latest.weight || 0,
+      latest.bmi || 0
+
+    ];
+
+    const pythonProcess = spawn(
+
+      "python",
+
+      [
+        path.join(
+          __dirname,
+          "../AI_model/all_models_predict.py"
+        )
+      ]
+
+    );
+
+    let result = "";
+
+    pythonProcess.stdout.on(
+      "data",
+      (data) => {
+
+        result += data.toString();
+
+      }
+    );
+
+    pythonProcess.stderr.on(
+      "data",
+      (data) => {
+
+        console.error(
+          "Python Error:",
+          data.toString()
+        );
+
+      }
+    );
+
+    pythonProcess.on(
+      "close",
+      () => {
+
+        try {
+
+          console.log(
+            "RAW RESULT:",
+            result
+          );
+
+          const parsed =
+            JSON.parse(result);
+
+          // IMPORTANT
+          // SEND ALL MODELS
+          res.json(parsed);
+
+        } catch (err) {
+
+          console.error(err);
+
+          res.status(500).json({
+            error:
+              "JSON PARSE ERROR"
+          });
+
+        }
+      }
+    );
+
+    pythonProcess.stdin.write(
+      JSON.stringify({
+        features
+      })
+    );
+
+    pythonProcess.stdin.end();
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      error: err.message
+    });
+
+  }
 };

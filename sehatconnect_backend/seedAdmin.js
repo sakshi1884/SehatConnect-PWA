@@ -13,7 +13,7 @@ const createAdmin = async () => {
 
 
     const existingAdmin = await Admin.findOne({
-      email: "admin@sehatconnect.com",
+      email: "admin@gmail.com",
     });
 
     if (existingAdmin) {
@@ -25,7 +25,7 @@ const createAdmin = async () => {
 
     await Admin.create({
       name: "Admin",
-      email: "admin@sehatconnect.com",
+      email: "admin@gmail.com",
       password: hashedPassword,
     });
 
