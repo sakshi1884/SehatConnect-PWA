@@ -25,6 +25,8 @@ import HWProfile from "./pages/healthworker/HWProfile";
 import HealthCamp from "./pages/healthworker/HealthCamp";
 import DetailsForm from "./pages/healthworker/DetailsForm";
 import PatientInfo from "./pages/healthworker/PatientInfo";
+import ModelComparison from "./pages/healthworker/ModelComparison";
+
 
 /* DOCTOR */
 import Doctor from "./pages/doctor/Doctor";
@@ -173,6 +175,15 @@ const App = () => {
             </ProtectedRoute>
           } />
 
+          <Route
+            path="/healthworker/:id/patient/:pid/model-analysis"
+            element={
+              <ProtectedRoute allowedRole="healthworker">
+                <ModelComparison />
+              </ProtectedRoute>
+            }
+          />
+          
           {/* ================= DOCTOR ================= */}
           <Route path="/doctor/:id" element={
             <ProtectedRoute allowedRole="doctor">

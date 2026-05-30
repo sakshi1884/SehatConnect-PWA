@@ -150,12 +150,12 @@ export default function PatientHistory() {
                     {/* ✅ AI RISK */}
                     <span
                       className={`risk ${
-                        c.riskLevel === "High"
-                          ? "high"
-                          : c.riskLevel === "Moderate"
-                          ? "moderate"
-                          : "normal"
-                      }`}
+  c.riskLevel?.includes("High")
+    ? "high"
+    : c.riskLevel?.includes("Moderate")
+    ? "moderate"
+    : "normal"
+}`}
                     >
                       {c.riskLevel || "Pending"}
                     </span>

@@ -1,7 +1,16 @@
 import "./Stylesheets/PatientDashboard.css";
 import HNavbar from "./HNavbar";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+
+import {
+  useNavigate,
+  useParams,
+  useLocation
+} from "react-router-dom";
+
+import {
+  useEffect,
+  useState
+} from "react";
 
 import {
   LineChart,
@@ -13,191 +22,791 @@ import {
 } from "recharts";
 
 export default function PatientDashboard() {
+
   const { id, pid } = useParams();
+
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const [patient, setPatient] = useState({});
+
   const [checkups, setCheckups] = useState([]);
+
   const [latest, setLatest] = useState(null);
 
+  const [allResults, setAllResults] =
+    useState({});
+
+  const [lightgbmResult, setLightgbmResult] =
+    useState(null);
+
+  const [loadingAI, setLoadingAI] =
+    useState(true);
+
+  // ================= INITIAL LOAD =================
   useEffect(() => {
+
     fetchPatient();
+
     loadCheckups();
+
   }, [pid]);
 
+  // ================= RECEIVE AI DATA =================
+ useEffect(() => {
+
+  // ================= FROM NAVIGATION =================
+  let predictionResults =
+    location.state?.predictionResults;
+
+  let lightgbmPrediction =
+    location.state?.lightgbmPrediction;
+
+  // ================= FALLBACK LOCALSTORAGE =================
+  if (!predictionResults) {
+
+    const stored =
+      localStorage.getItem(
+        "modelResults"
+      );
+
+    if (stored) {
+
+      predictionResults =
+        JSON.parse(stored);
+
+      lightgbmPrediction =
+        predictionResults.LightGBM;
+
+    }
+
+  }
+
+  console.log(
+    "Prediction Results:",
+    predictionResults
+  );
+
+  console.log(
+    "LightGBM Prediction:",
+    lightgbmPrediction
+  );
+  // ==============
+    if (!predictionResults) {
+
+    console.log(
+      "No navigation state found. Checking localStorage..."
+    );
+
+    const stored =
+      localStorage.getItem(
+        "modelResults"
+      );
+
+    console.log(
+      "Raw localStorage modelResults:",
+      stored
+    );
+
+    if (stored) {
+
+      predictionResults =
+        JSON.parse(stored);
+
+      console.log(
+        "Parsed localStorage results:",
+        predictionResults
+      );
+
+      lightgbmPrediction =
+        predictionResults.LightGBM;
+
+    }
+
+  }
+
+  console.log(
+    "================ FINAL RESULTS ================"
+  );
+
+  console.log(
+    "Prediction Results:",
+    predictionResults
+  );
+
+  console.log(
+    "LightGBM Prediction:",
+    lightgbmPrediction
+  );
+
+  console.log(
+    "LightGBM keys:",
+    lightgbmPrediction
+      ? Object.keys(
+          lightgbmPrediction
+        )
+      : "No Object"
+  );
+
+  console.log(
+    "Prediction field value:",
+    lightgbmPrediction?.prediction
+  );
+
+  console.log(
+    "Accuracy field value:",
+    lightgbmPrediction?.accuracy
+  );
+
+  console.log(
+    "F1 field value:",
+    lightgbmPrediction?.f1_score
+  );
+
+  console.log(
+    "Execution time field value:",
+    lightgbmPrediction?.execution_time
+  );
+  // ================= STORE =================
+  if (predictionResults) {
+
+    setAllResults(
+      predictionResults
+    );
+
+  }
+
+  if (lightgbmPrediction) {
+
+    setLightgbmResult({
+
+      prediction:
+        lightgbmPrediction.prediction,
+
+      accuracy:
+        lightgbmPrediction.accuracy,
+
+      f1_score:
+        lightgbmPrediction.f1_score,
+
+    });
+
+  } else {
+
+    console.warn(
+      "No LightGBM result received"
+    );
+
+  }
+
+  setLoadingAI(false);
+
+}, [location.state]);
+
+  // ================= PATIENT =================
   const fetchPatient = async () => {
+
     try {
-      const token = localStorage.getItem("token");
+
+      const token =
+        localStorage.getItem("token");
 
       const res = await fetch(
+
         `https://sehatconnect-pwa-4.onrender.com/api/patients/${pid}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+
+        {
+
+          headers: {
+
+            Authorization:
+              `Bearer ${token}`,
+
+          },
+
+        }
+
       );
 
       const data = await res.json();
-      if (res.ok) setPatient(data.patient);
+
+      if (res.ok) {
+
+        setPatient(data.patient);
+
+      }
+
     } catch (err) {
+
       console.error(err);
+
     }
+
   };
 
+  // ================= CHECKUPS =================
   const loadCheckups = async () => {
-  try {
-    const token = localStorage.getItem("token");
 
-    const res = await fetch(
-      `https://sehatconnect-pwa-4.onrender.com/api/checkups/${pid}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    try {
 
-    const data = await res.json();
+      const token =
+        localStorage.getItem("token");
 
-    if (res.ok) {
-      const sorted = data.checkups.sort(
-        (a, b) => new Date(a.date) - new Date(b.date)
+      const res = await fetch(
+
+        `https://sehatconnect-pwa-4.onrender.com/api/checkups/${pid}`,
+
+        {
+
+          headers: {
+
+            Authorization:
+              `Bearer ${token}`,
+
+          },
+
+        }
+
       );
 
-      setCheckups(sorted);
-      setLatest(sorted[sorted.length - 1]);
+      const data = await res.json();
+
+      if (res.ok) {
+
+        const sorted =
+          data.checkups.sort(
+
+            (a, b) =>
+              new Date(a.date) -
+              new Date(b.date)
+
+          );
+
+        setCheckups(sorted);
+
+        if (sorted.length > 0) {
+
+          setLatest(
+            sorted[
+              sorted.length - 1
+            ]
+          );
+
+        }
+
+      }
+
+    } catch (err) {
+
+      console.error(err);
+
     }
-  } catch (err) {
-    console.error(err);
-  }
-};
 
-const getRiskClass = (risk) => {
-  if (risk === "High" || risk === "High Risk") return "high";
-  if (risk === "Moderate") return "moderate";
-  return "normal";
-};
-
-  const getAge = (dob) => {
-    if (!dob) return "-";
-    return new Date().getFullYear() - new Date(dob).getFullYear();
   };
 
-  const getColor = (type, value) => {
-    if (!value) return "neutral";
+  // ================= HELPERS =================
+  const getRiskClass = (risk) => {
+
+    if (
+      risk === 1 ||
+      risk === "High Risk" ||
+      risk === "High"
+    ) {
+
+      return "high";
+
+    }
+
+    if (
+      risk === 0 ||
+      risk === "Low Risk" ||
+      risk === "Low"
+    ) {
+
+      return "normal";
+
+    }
+
+    if (typeof risk === "string") {
+
+      const value =
+        risk.toLowerCase();
+
+      if (
+        value.includes("high")
+      ) {
+
+        return "high";
+
+      }
+
+      if (
+        value.includes("moderate")
+      ) {
+
+        return "moderate";
+
+      }
+
+      if (
+        value.includes("low")
+      ) {
+
+        return "normal";
+
+      }
+
+    }
+
+    return "neutral";
+
+  };
+
+  const getRiskLabel = (prediction) => {
+
+    if (
+      prediction === 1 ||
+      prediction === "1"
+    ) {
+
+      return "High Risk";
+
+    }
+
+    if (
+      prediction === 0 ||
+      prediction === "0"
+    ) {
+
+      return "Low Risk";
+
+    }
+
+    if (
+      typeof prediction ===
+      "string"
+    ) {
+
+      return prediction;
+
+    }
+
+    return "Unknown";
+
+  };
+
+  const getAge = (dob) => {
+
+    if (!dob) return "-";
+
+    return (
+
+      new Date().getFullYear() -
+
+      new Date(dob).getFullYear()
+
+    );
+
+  };
+
+  const getColor = (
+    type,
+    value
+  ) => {
+
+    if (!value)
+      return "neutral";
 
     if (type === "temp") {
-      if (value > 100) return "high";
-      if (value > 99) return "moderate";
+
+      if (value > 100)
+        return "high";
+
+      if (value > 99)
+        return "moderate";
+      if (value < 95)
+    return "high";
+
       return "normal";
+
     }
 
     if (type === "spo2") {
-      return value < 95 ? "high" : "normal";
+
+      return value < 95
+        ? "high"
+        : "normal";
+
     }
 
     if (type === "hr") {
-      return value > 100 ? "moderate" : "normal";
+
+      return value > 100
+        ? "moderate"
+        : "normal";
+
     }
 
     return "normal";
+
   };
 
+  // ================= UI =================
   return (
+
     <div>
+
       <HNavbar />
 
       <div className="dashboard-container">
 
-        <button className="back-btn" onClick={() => navigate(-1)}>
+        <button
+
+          className="back-btn"
+
+          onClick={() =>
+            navigate(-1)
+          }
+
+        >
+
           ← Back
+
         </button>
 
+        {/* HEADER */}
         <div className="dashboard-header">
+
           <div>
-            <h2>{patient.fullName}</h2>
-            <p>Age: {getAge(patient.dob)}</p>
+
+            <h2>
+              {patient.fullName}
+            </h2>
+
+            <p>
+              Age:
+              {" "}
+              {getAge(
+                patient.dob
+              )}
+            </p>
+
           </div>
 
           <div className="header-actions">
-            <button onClick={() =>
-              navigate(`/healthworker/${id}/patient/${pid}/history`)
-            }>History</button>
 
-            <button onClick={() =>
-              navigate(`/healthworker/${id}/patient/${pid}/checkup`)
-            }>New Checkup</button>
+            <button
 
-            <button onClick={() =>
-              navigate(`/healthworker/${id}/patient/${pid}/detailsForm`)
-            }>Edit</button>
+              onClick={() =>
+                navigate(
+
+                  `/healthworker/${id}/patient/${pid}/history`
+
+                )
+              }
+
+            >
+
+              History
+
+            </button>
+
+            <button
+
+              onClick={() =>
+                navigate(
+
+                  `/healthworker/${id}/patient/${pid}/checkup`
+
+                )
+              }
+
+            >
+
+              New Checkup
+
+            </button>
+
+            <button
+
+              onClick={() =>
+                navigate(
+
+                  `/healthworker/${id}/patient/${pid}/detailsForm`
+
+                )
+              }
+
+            >
+
+              Edit
+
+            </button>
+
           </div>
+
         </div>
 
+        {/* METRICS */}
         {latest && (
-  <div className="metrics-grid">
 
-    <div className={`card ${getColor("temp", latest.temperature)}`}>
-      <p>Temperature</p>
-      <h3>{latest.temperature}°F</h3>
-    </div>
+          <div>
 
-    <div className={`card ${getColor("hr", latest.heartRate)}`}>
-      <p>Heart Rate</p>
-      <h3>{latest.heartRate} bpm</h3>
-    </div>
+            <div className="metrics-grid">
 
-    <div className="card normal">
-      <p>Blood Pressure</p>
-      <h3>{latest.systolic}/{latest.diastolic}</h3>
-    </div>
+              <div
+                className={`card ${getColor(
+                  "temp",
+                  latest.temperature
+                )}`}
+              >
 
-    <div className={`card ${getColor("spo2", latest.spo2)}`}>
-      <p>SpO₂</p>
-      <h3>{latest.spo2}%</h3>
-    </div>
+                <p>
+                  Temperature
+                </p>
 
-    <div className="card normal">
-      <p>BMI</p>
-      <h3>{latest.bmi?.toFixed(1)}</h3>
-    </div>
+                <h3>
+                  {latest.temperature}°F
+                </h3>
 
-    {/* 🔥 NEW CARDS */}
+              </div>
 
-    <div className="card normal">
-      <p>Pulse Pressure</p>
-      <h3>{latest.pulsePressure}</h3>
-    </div>
+              <div
+                className={`card ${getColor(
+                  "hr",
+                  latest.heartRate
+                )}`}
+              >
 
-    <div className="card normal">
-      <p>MAP</p>
-      <h3>{latest.map?.toFixed(1)}</h3>
-    </div>
-    
-    <div className="ai-section">
-  <div className={`card ai-card ${getRiskClass(latest.riskLevel)}`}>
-    <p>Overall Health (AI)</p>
-    <h2>{latest.riskLevel}</h2>
-  </div>
-</div>
+                <p>
+                  Heart Rate
+                </p>
 
-  </div>
+                <h3>
+                  {latest.heartRate} bpm
+                </h3>
 
-)}
+              </div>
 
+              <div className="card normal">
 
+                <p>
+                  Blood Pressure
+                </p>
 
-        {checkups.length > 0 && (
-          <div className="chart-box">
-            <h4>Heart Rate Trend</h4>
+                <h3>
 
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={checkups}>
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="heartRate" />
-              </LineChart>
-            </ResponsiveContainer>
+                  {latest.systolic}/
+                  {latest.diastolic}
+
+                </h3>
+
+              </div>
+
+              <div
+                className={`card ${getColor(
+                  "spo2",
+                  latest.spo2
+                )}`}
+              >
+
+                <p>
+                  SpO₂
+                </p>
+
+                <h3>
+                  {latest.spo2}%
+                </h3>
+
+              </div>
+
+              <div className="card normal">
+
+                <p>
+                  BMI
+                </p>
+
+                <h3>
+
+                  {latest.bmi?.toFixed(
+                    1
+                  )}
+
+                </h3>
+
+              </div>
+
+              <div className="card normal">
+
+                <p>
+                  Pulse Pressure
+                </p>
+
+                <h3>
+                  {latest.pulsePressure}
+                </h3>
+
+              </div>
+
+              <div className="card normal">
+
+                <p>
+                  MAP
+                </p>
+
+                <h3>
+
+                  {latest.map?.toFixed(
+                    1
+                  )}
+
+                </h3>
+
+              </div>
+
+            </div>
+
+            {/* AI SECTION */}
+            <div className="ai-section">
+
+              <div
+
+                className={`card ai-card ${getRiskClass(
+
+                  lightgbmResult?.prediction
+
+                )}`}
+
+              >
+
+                <p>
+
+                  Overall Health
+                  (AI - LightGBM)
+
+                </p>
+
+                <h2>
+
+                  {loadingAI
+
+                    ? "Loading..."
+
+                    : getRiskLabel(
+                        lightgbmResult?.prediction
+                      )}
+
+                </h2>
+
+                <p className="ai-subtext">
+
+                  Accuracy:
+                  {" "}
+
+                  {lightgbmResult?.accuracy
+                    ? Number(
+                        lightgbmResult.accuracy
+                      ).toFixed(2)
+                    : "0.00"}%
+
+                  {" | "}
+
+                  F1 Score:
+                  {" "}
+
+                  {lightgbmResult?.f1_score
+                    ? Number(
+                        lightgbmResult.f1_score
+                      ).toFixed(2)
+                    : "0.00"}%
+
+                </p>
+
+                <button
+
+                  className="analysis-btn"
+
+                  onClick={() => {
+
+                    navigate(
+
+                      `/healthworker/${id}/patient/${pid}/model-analysis`,
+
+                      {
+
+                        state: {
+
+                          allResults
+
+                        }
+
+                      }
+
+                    );
+
+                  }}
+
+                >
+
+                  View All Models
+
+                </button>
+
+              </div>
+
+            </div>
+
           </div>
+
+        )}
+
+        {/* CHART */}
+        {checkups.length > 0 && (
+
+          <div className="chart-box">
+
+            <h4>
+              Heart Rate Trend
+            </h4>
+
+            <ResponsiveContainer
+              width="100%"
+              height={250}
+            >
+
+              <LineChart
+                data={checkups}
+              >
+
+                <XAxis
+                  dataKey="date"
+                />
+
+                <YAxis />
+
+                <Tooltip />
+
+                <Line
+
+                  type="monotone"
+
+                  dataKey="heartRate"
+
+                />
+
+              </LineChart>
+
+            </ResponsiveContainer>
+
+          </div>
+
         )}
 
       </div>
+
     </div>
+
   );
+
 }
