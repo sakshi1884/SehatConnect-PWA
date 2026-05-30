@@ -420,8 +420,8 @@ export default function PatientDashboard() {
 
     // Celsius ranges
     if (value >= 38) return "high";
-    if (value >= 37.5) return "moderate";
-    if (value < 35) return "high";
+    if (value >= 36) return "moderate";
+    if (value <= 35) return "high";
 
     return "normal";
   }
