@@ -517,7 +517,7 @@ try {
           />
 
           <label>
-            Body Temperature (°F):
+            Body Temperature (°C):
           </label>
 
           <input

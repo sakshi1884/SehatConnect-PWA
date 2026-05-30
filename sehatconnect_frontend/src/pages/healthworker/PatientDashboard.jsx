@@ -420,13 +420,18 @@ export default function PatientDashboard() {
 
     if (type === "temp") {
 
-      if (value > 100)
-        return "high";
-
-      if (value > 99)
-        return "moderate";
-      if (value < 95)
+  if (value > 38)
     return "high";
+
+  if (value > 37.5)
+    return "moderate";
+
+  if (value < 35)
+    return "high";
+
+  return "normal";
+
+}
 
       return "normal";
 
@@ -567,7 +572,7 @@ export default function PatientDashboard() {
                 </p>
 
                 <h3>
-                  {latest.temperature}°F
+                  {latest.temperature}°C
                 </h3>
 
               </div>
