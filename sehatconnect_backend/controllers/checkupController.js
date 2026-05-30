@@ -78,57 +78,59 @@ if (lastCheckup?.heartRate) {
       error += data.toString();
     });
 
-    python.on("close", async () => {
-      let riskLevel = "Unknown";
+   python.on("close", async () => {
+  let aiResult = null;
+  let riskLevel = "Unknown";
 
-      try {
-        if (!error && result) {
-          const parsed = JSON.parse(result);
-          riskLevel = parsed.prediction; // "High Risk" / "Low Risk"
-        }
-      } catch (e) {
-        console.log("AI Parse Error:", e);
-      }
+  try {
+    if (!error && result) {
+      aiResult = JSON.parse(result);
+      riskLevel = aiResult.prediction; // or aiResult.LightGBM.prediction if your Python returns that structure
+    }
+  } catch (e) {
+    console.log("AI Parse Error:", e);
+  }
 
-      // ================= SAVE CHECKUP =================
-      const checkup = await Checkup.create({
-        patientId: req.params.patientId,
+  // ================= SAVE CHECKUP =================
+  const checkup = await Checkup.create({
+    patientId: req.params.patientId,
 
-        createdBy: req.user._id,
-        createdByModel:
-          req.user.role === "doctor" ? "Doctor" : "HealthWorker",
-        name: req.user.fullName,
+    createdBy: req.user._id,
+    createdByModel:
+      req.user.role === "doctor" ? "Doctor" : "HealthWorker",
+    name: req.user.fullName,
 
-        // vitals
-        temperature,
-        heartRate,
-        respiratoryRate,
-        spo2,
-        systolic,
-        diastolic,
+    // vitals
+    temperature,
+    heartRate,
+    respiratoryRate,
+    spo2,
+    systolic,
+    diastolic,
 
-        // body
-        weight,
-        height,
-        bmi,
+    // body
+    weight,
+    height,
+    bmi,
 
-        // derived
-        pulsePressure,
-        map,
-        hrv,
+    // derived
+    pulsePressure,
+    map,
+    hrv,
 
-        // notes
-        remarks,
+    // notes
+    remarks,
 
-        // AI output ✅
-        riskLevel,
-      });
+    // AI output
+    riskLevel,
+    modelResults: aiResult
+  });
 
-      res.status(201).json({
-        success: true,
-        checkup,
-      });
-    });
+  res.status(201).json({
+    success: true,
+    checkup,
+  });
+});
 
   } catch (error) {
     console.error("ADD CHECKUP ERROR:", error);
