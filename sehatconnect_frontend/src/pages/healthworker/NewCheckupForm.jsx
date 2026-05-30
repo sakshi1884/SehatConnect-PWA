@@ -312,10 +312,7 @@ export default function NewCheckupForm() {
 
     Number(form.height),
 
-    Math.round(
-      60000 /
-      Number(form.heartRate)
-    ),
+    0.05,
 
     Number(form.systolic) -
     Number(form.diastolic),
