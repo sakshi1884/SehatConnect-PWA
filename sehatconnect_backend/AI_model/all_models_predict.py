@@ -52,11 +52,6 @@ models = {
     "CatBoost":
         joblib.load(
             os.path.join(BASE_DIR, "catboost.pkl")
-        ),
-
-    "FFNN":
-        joblib.load(
-            os.path.join(BASE_DIR, "ffnn.pkl")
         )
 }
 
