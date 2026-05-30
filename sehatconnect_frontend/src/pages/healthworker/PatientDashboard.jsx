@@ -410,52 +410,32 @@ export default function PatientDashboard() {
 
   };
 
-  const getColor = (
-    type,
-    value
-  ) => {
+  const getColor = (type, value) => {
 
-    if (!value)
-      return "neutral";
+  if (value === null || value === undefined) {
+    return "neutral";
+  }
 
-    if (type === "temp") {
+  if (type === "temp") {
 
-  if (value > 38)
-    return "high";
-
-  if (value > 37.5)
-    return "moderate";
-
-  if (value < 35)
-    return "high";
-
-  return "normal";
-
-}
-
-      return "normal";
-
-    }
-
-    if (type === "spo2") {
-
-      return value < 95
-        ? "high"
-        : "normal";
-
-    }
-
-    if (type === "hr") {
-
-      return value > 100
-        ? "moderate"
-        : "normal";
-
-    }
+    // Celsius ranges
+    if (value >= 38) return "high";
+    if (value >= 37.5) return "moderate";
+    if (value < 35) return "high";
 
     return "normal";
+  }
 
-  };
+  if (type === "spo2") {
+    return value < 95 ? "high" : "normal";
+  }
+
+  if (type === "hr") {
+    return value > 100 ? "moderate" : "normal";
+  }
+
+  return "normal";
+};
 
   // ================= UI =================
   return (
