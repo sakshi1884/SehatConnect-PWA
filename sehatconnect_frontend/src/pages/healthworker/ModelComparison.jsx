@@ -15,7 +15,8 @@ import {
 } from "recharts";
 
 import {
-  useNavigate
+  useNavigate,
+   useParams
 } from "react-router-dom";
 
 import {
@@ -40,6 +41,7 @@ const COLORS = [
 const ModelComparison = () => {
 
   const navigate = useNavigate();
+  const { pid } = useParams();
 
   const [results, setResults] = useState();
 

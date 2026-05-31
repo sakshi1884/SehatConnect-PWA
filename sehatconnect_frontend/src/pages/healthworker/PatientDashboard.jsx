@@ -26,8 +26,6 @@ export default function PatientDashboard() {
 
   const navigate = useNavigate();
 
-  const location = useLocation();
-
   const [patient, setPatient] = useState({});
 
   const [checkups, setCheckups] = useState([]);
