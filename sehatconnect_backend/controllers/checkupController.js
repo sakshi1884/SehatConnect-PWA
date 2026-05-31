@@ -85,7 +85,7 @@ if (lastCheckup?.heartRate) {
   try {
     if (!error && result) {
       aiResult = JSON.parse(result);
-      riskLevel = aiResult.prediction; // or aiResult.LightGBM.prediction if your Python returns that structure
+      riskLevel = aiResult.prediction; 
     }
   } catch (e) {
     console.log("AI Parse Error:", e);
