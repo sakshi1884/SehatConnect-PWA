@@ -266,6 +266,27 @@ export default function NewCheckupForm() {
         );
 
       }
+      console.log("FEATURES SENT TO AI:", [
+  Number(form.heartRate),
+  Number(form.respiratoryRate),
+  Number(form.temperature),
+  Number(form.spo2),
+  Number(form.systolic),
+  Number(form.diastolic),
+  Number(patient.age),
+  patient.gender === "Male" ? 1 : 0,
+  Number(form.weight),
+  Number(form.height) / 100,
+  0.05,
+  Number(form.systolic) - Number(form.diastolic),
+  Number(calculateBMI()),
+  Number(
+    (
+      Number(form.diastolic) +
+      (Number(form.systolic) - Number(form.diastolic)) / 3
+    ).toFixed(1)
+  )
+]);
 
       // ================= AI PREDICTION =================
       const aiRes = await fetch(
