@@ -52,7 +52,11 @@ const checkupSchema = new mongoose.Schema(
     remarks: String,
 
     // ================= AI OUTPUT =================
-    riskLevel: String,    
+    riskLevel: String, 
+    modelResults: {
+  type: mongoose.Schema.Types.Mixed,
+  default: null
+},   
   },
   { timestamps: true }
 );
