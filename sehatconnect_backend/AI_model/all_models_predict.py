@@ -5,6 +5,7 @@ import joblib
 import time
 import os
 import lightgbm as lgb
+
 BASE_DIR = os.path.dirname(__file__)
 
 # =========================
@@ -12,6 +13,13 @@ BASE_DIR = os.path.dirname(__file__)
 # =========================
 scaler = joblib.load(
     os.path.join(BASE_DIR, "vitals_scaler.pkl")
+)
+
+# =========================
+# LOAD LABEL ENCODER
+# =========================
+encoder = joblib.load(
+    os.path.join(BASE_DIR, "risk_label_encoder.pkl")
 )
 
 # =========================
@@ -56,7 +64,6 @@ models = {
 }
 
 try:
-    
 
     input_json = sys.stdin.read()
 
@@ -81,39 +88,36 @@ try:
 
         start = time.time()
 
-        # =========================
-        # PROBABILITY
-        # =========================
+        pred = model.predict(features)[0]
+
         if hasattr(model, "predict_proba"):
 
-            prob = model.predict_proba(features)[0][1]
+            probs = model.predict_proba(features)[0]
+
+            prob = float(probs[int(pred)])
 
         else:
 
-            pred = model.predict(features)[0]
-            prob = float(pred)
+            prob = 1.0
 
-        if prob >= 0.7:
-            prediction = "High Risk"
-        elif prob >= 0.4:
-            prediction = "Medium Risk"
-        else:
-            prediction = "Low Risk"
+        prediction = encoder.inverse_transform([int(pred)])[0]
 
         end = time.time()
 
         results[name] = {
 
-    "prediction": prediction,   # "High Risk" / "Low Risk"
+            "prediction": prediction,
 
-    "probability": round(float(prob), 4),
+            "probability": round(prob, 4),
 
-    "accuracy": metrics[name]["accuracy"],
+            "accuracy": metrics[name]["accuracy"],
 
-    "f1_score": metrics[name]["f1_score"],
+            "f1_score": metrics[name]["f1_score"],
 
-    "execution_time": round(end - start, 4)
-}
+            "execution_time": round(end - start, 4)
+
+        }
+
     print(json.dumps(results))
 
 except Exception as e:
