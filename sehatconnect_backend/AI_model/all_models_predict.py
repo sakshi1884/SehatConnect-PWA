@@ -93,11 +93,12 @@ try:
             pred = model.predict(features)[0]
             prob = float(pred)
 
-        prediction = (
-            "High Risk"
-            if prob > 0.5
-            else "Low Risk"
-        )
+        if prob >= 0.7:
+            prediction = "High Risk"
+        elif prob >= 0.4:
+            prediction = "Medium Risk"
+        else:
+            prediction = "Low Risk"
 
         end = time.time()
 
