@@ -310,7 +310,7 @@ export default function NewCheckupForm() {
 
     Number(form.weight),
 
-    Number(form.height),
+    Number(form.height)/100,
 
     0.05,
 

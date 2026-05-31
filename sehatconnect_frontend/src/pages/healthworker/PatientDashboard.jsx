@@ -420,8 +420,8 @@ export default function PatientDashboard() {
 
     // Celsius ranges
     if (value >= 38) return "high";
-    if (value >= 36) return "moderate";
-    if (value <= 35) return "high";
+    if (value >= 35 && value < 38) return "moderate";
+    if (value < 35) return "high";
 
     return "normal";
   }
@@ -451,7 +451,7 @@ export default function PatientDashboard() {
           className="back-btn"
 
           onClick={() =>
-            navigate(-1)
+            navigate(`/healthworker/${id}/patient/${pid}/dashboard`)
           }
 
         >
