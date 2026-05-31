@@ -94,48 +94,36 @@ try:
 
         start = time.time()
 
-        # =========================
-        # PROBABILITY
-        # =========================
         if hasattr(model, "predict_proba"):
 
-            prob = model.predict_proba(features)[0][1]
+            probs = model.predict_proba(features)[0]
+
+            # SAFE CLASS INDEXING
+            class_index = list(model.classes_).index("High Risk")
+            prob = probs[class_index]
 
         else:
 
             pred = model.predict(features)[0]
-
             prob = float(pred)
 
-        prediction = (
-            "High Risk"
-            if prob > 0.5
-            else "Low Risk"
-        )
+    threshold = metrics.get(name, {}).get("threshold", 0.5)
 
-        end = time.time()
+    prediction = (
+        "High Risk"
+        if prob > threshold
+        else "Low Risk"
+    )
 
-        results[name] = {
+    end = time.time()
 
-            "prediction": prediction,
-
-            "probability": round(float(prob), 4),
-
-            "accuracy":
-                metrics.get(name, {}).get(
-                    "accuracy",
-                    0
-                ),
-
-            "f1_score":
-                metrics.get(name, {}).get(
-                    "f1_score",
-                    0
-                ),
-
-            "execution_time":
-                round(end - start, 4)
-        }
+    results[name] = {
+        "prediction": prediction,
+        "probability": round(float(prob), 4),
+        "accuracy": metrics.get(name, {}).get("accuracy", 0),
+        "f1_score": metrics.get(name, {}).get("f1_score", 0),
+        "execution_time": round(end - start, 4)
+    }
 
     print(json.dumps(results))
 
