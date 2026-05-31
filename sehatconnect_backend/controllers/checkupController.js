@@ -79,13 +79,16 @@ if (lastCheckup?.heartRate) {
     });
 
    python.on("close", async () => {
+    console.log("PYTHON STDERR:", error);
+  console.log("PYTHON STDOUT:", result);
   let aiResult = null;
   let riskLevel = "Unknown";
 
   try {
     if (!error && result) {
       aiResult = JSON.parse(result);
-      riskLevel = aiResult.prediction; 
+      riskLevel = aiResult?.LightGBM?.prediction ||
+  "Unknown";
     }
   } catch (e) {
     console.log("AI Parse Error:", e);
