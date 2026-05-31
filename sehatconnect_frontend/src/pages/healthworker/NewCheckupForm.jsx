@@ -266,6 +266,13 @@ export default function NewCheckupForm() {
         );
 
       }
+      const checkupId = data.checkup._id;
+
+console.log(
+  "Created Checkup ID:",
+  checkupId
+);  
+console.log("SAVE CHECKUP RESPONSE:", data);
       console.log("FEATURES SENT TO AI:", [
   Number(form.heartRate),
   Number(form.respiratoryRate),
@@ -404,14 +411,46 @@ try {
 
       });
 
-      // ================= STORE RESULTS =================
-      localStorage.setItem(
+      // ================= SAVE AI RESULTS TO DB =================
 
-        "modelResults",
+const updateRes =await fetch(
 
-        JSON.stringify(aiData)
+  `https://sehatconnect-pwa-4.onrender.com/api/checkups/${checkupId}`,
 
-      );
+  {
+
+    method: "PUT",
+
+    headers: {
+
+      "Content-Type": "application/json",
+
+      Authorization: `Bearer ${token}`,
+
+    },
+
+    body: JSON.stringify({
+
+      riskLevel:
+        aiData.LightGBM?.prediction ||
+
+        "Unknown",
+
+      modelResults:
+        aiData,
+
+    }),
+
+  }
+
+);
+const updateData =
+  await updateRes.json();
+
+console.log(
+  "CHECKUP UPDATED:",
+  updateData
+);
 
       // ================= SUCCESS =================
       setFlash({

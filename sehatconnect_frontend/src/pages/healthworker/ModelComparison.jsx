@@ -45,16 +45,68 @@ const ModelComparison = () => {
 
   useEffect(() => {
 
-    const storedResults =
-      localStorage.getItem("modelResults");
+  const loadLatestResults = async () => {
 
-    if (storedResults) {
+    try {
 
-      setResults(JSON.parse(storedResults));
+      const token =
+        localStorage.getItem("token");
+
+      const res = await fetch(
+        `https://sehatconnect-pwa-4.onrender.com/api/checkups/${pid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (
+        res.ok &&
+        data.checkups &&
+        data.checkups.length > 0
+      ) {
+
+        const latestCheckup =
+          data.checkups.sort(
+            (a, b) =>
+              new Date(b.date) -
+              new Date(a.date)
+          )[0];
+
+        console.log(
+          "LATEST CHECKUP:",
+          latestCheckup
+        );
+
+        if (
+          latestCheckup.modelResults
+        ) {
+
+          setResults(
+            latestCheckup.modelResults
+          );
+
+        }
+
+      }
+
+    } catch (err) {
+
+      console.error(
+        "Failed to load model results:",
+        err
+      );
 
     }
 
-  }, []);
+  };
+
+  loadLatestResults();
+
+}, []);
 
   if (!results) {
 
@@ -71,17 +123,15 @@ const ModelComparison = () => {
   }
 
   const chartData =
-    Object.entries(results).map(
-      ([model, data]) => ({
-
-        model,
-
-        accuracy: data.accuracy,
-
-        f1: data.f1_score
-
-      })
-    );
+  Object.entries(results).map(
+    ([model, data]) => ({
+      model,
+      accuracy: data.accuracy,
+      f1: data.f1_score,
+      probability:
+        Number(data.probability) * 100
+    })
+  );
 
   const pieData = [
     {
@@ -236,6 +286,30 @@ const ModelComparison = () => {
                 </strong>
 
               </div>
+              <div className="metric">
+
+  <ShieldCheck size={18} />
+
+  <span>
+    Confidence
+  </span>
+
+  <strong>
+    {(data.probability * 100).toFixed(2)}%
+  </strong>
+
+</div>
+
+<div className="progress-bar">
+
+  <div
+    className="progress-fill f1-fill"
+    style={{
+      width: `${data.probability * 100}%`
+    }}
+  ></div>
+
+</div>
 
               <div className="prediction-box">
 
@@ -376,6 +450,11 @@ const ModelComparison = () => {
                 fill="url(#f1Gradient)"
                 radius={[12, 12, 0, 0]}
               />
+              <Bar
+  dataKey="probability"
+  fill="#FFB547"
+  radius={[12, 12, 0, 0]}
+/>
 
             </BarChart>
 

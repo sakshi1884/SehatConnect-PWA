@@ -3,8 +3,7 @@ import HNavbar from "./HNavbar";
 
 import {
   useNavigate,
-  useParams,
-  useLocation
+  useParams
 } from "react-router-dom";
 
 import {
@@ -54,155 +53,47 @@ export default function PatientDashboard() {
   }, [pid]);
 
   // ================= RECEIVE AI DATA =================
- useEffect(() => {
+ // ================= LOAD AI RESULT FROM LATEST CHECKUP =================
+useEffect(() => {
 
-  // ================= FROM NAVIGATION =================
-  let predictionResults =
-    location.state?.predictionResults;
+  if (!latest) return;
 
-  let lightgbmPrediction =
-    location.state?.lightgbmPrediction;
+  console.log("LATEST CHECKUP:", latest);
 
-  // ================= FALLBACK LOCALSTORAGE =================
-  if (!predictionResults) {
+  // All model results stored in MongoDB
+  if (latest.modelResults) {
 
-    const stored =
-      localStorage.getItem(
-        "modelResults"
-      );
+    setAllResults(latest.modelResults);
 
-    if (stored) {
+    if (latest.modelResults.LightGBM) {
 
-      predictionResults =
-        JSON.parse(stored);
+      setLightgbmResult({
+        prediction:
+          latest.modelResults.LightGBM.prediction,
 
-      lightgbmPrediction =
-        predictionResults.LightGBM;
+        accuracy:
+          latest.modelResults.LightGBM.accuracy,
 
-    }
+        f1_score:
+          latest.modelResults.LightGBM.f1_score,
 
-  }
-
-  console.log(
-    "Prediction Results:",
-    predictionResults
-  );
-
-  console.log(
-    "LightGBM Prediction:",
-    lightgbmPrediction
-  );
-  // ==============
-    if (!predictionResults) {
-
-    console.log(
-      "No navigation state found. Checking localStorage..."
-    );
-
-    const stored =
-      localStorage.getItem(
-        "modelResults"
-      );
-
-    console.log(
-      "Raw localStorage modelResults:",
-      stored
-    );
-
-    if (stored) {
-
-      predictionResults =
-        JSON.parse(stored);
-
-      console.log(
-        "Parsed localStorage results:",
-        predictionResults
-      );
-
-      lightgbmPrediction =
-        predictionResults.LightGBM;
+        execution_time:
+          latest.modelResults.LightGBM.execution_time,
+      });
 
     }
-
-  }
-
-  console.log(
-    "================ FINAL RESULTS ================"
-  );
-
-  console.log(
-    "Prediction Results:",
-    predictionResults
-  );
-
-  console.log(
-    "LightGBM Prediction:",
-    lightgbmPrediction
-  );
-
-  console.log(
-    "LightGBM keys:",
-    lightgbmPrediction
-      ? Object.keys(
-          lightgbmPrediction
-        )
-      : "No Object"
-  );
-
-  console.log(
-    "Prediction field value:",
-    lightgbmPrediction?.prediction
-  );
-
-  console.log(
-    "Accuracy field value:",
-    lightgbmPrediction?.accuracy
-  );
-
-  console.log(
-    "F1 field value:",
-    lightgbmPrediction?.f1_score
-  );
-
-  console.log(
-    "Execution time field value:",
-    lightgbmPrediction?.execution_time
-  );
-  // ================= STORE =================
-  if (predictionResults) {
-
-    setAllResults(
-      predictionResults
-    );
-
-  }
-
-  if (lightgbmPrediction) {
-
-    setLightgbmResult({
-
-      prediction:
-        lightgbmPrediction.prediction,
-
-      accuracy:
-        lightgbmPrediction.accuracy,
-
-      f1_score:
-        lightgbmPrediction.f1_score,
-
-    });
 
   } else {
 
     console.warn(
-      "No LightGBM result received"
+      "No modelResults found in latest checkup"
     );
 
   }
 
   setLoadingAI(false);
 
-}, [location.state]);
+}, [latest]);
 
   // ================= PATIENT =================
   const fetchPatient = async () => {
