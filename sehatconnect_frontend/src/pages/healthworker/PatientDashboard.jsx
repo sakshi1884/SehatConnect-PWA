@@ -416,15 +416,16 @@ export default function PatientDashboard() {
     return "neutral";
   }
 
-  if (type === "temp") {
+ if (type === "temp") {
 
-    // Celsius ranges
-    if (value >= 38) return "high";
-    if (value >= 35 && value < 38) return "moderate";
-    if (value < 35) return "high";
+  // Celsius ranges
+  if (value >= 38) return "high";      // Fever
+  if (value < 35) return "high";       // Hypothermia
+  if (value >= 35 && value < 36) return "moderate"; // Slightly low
+  if (value >= 36 && value < 38) return "normal";
 
-    return "normal";
-  }
+  return "normal";
+}
 
   if (type === "spo2") {
     return value < 95 ? "high" : "normal";
