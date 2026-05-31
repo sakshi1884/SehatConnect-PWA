@@ -271,7 +271,7 @@ export default function NewCheckupForm() {
 console.log(
   "Created Checkup ID:",
   checkupId
-);  
+);  c
 console.log("SAVE CHECKUP RESPONSE:", data);
       console.log("FEATURES SENT TO AI:", [
   Number(form.heartRate),
