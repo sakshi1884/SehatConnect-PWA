@@ -59,7 +59,7 @@ if (lastCheckup?.heartRate) {
     // ================= CALL PYTHON MODEL =================
     const scriptPath = path.join(
       process.cwd(),
-      "../AI_model/predict.py"
+      "predict.py"
     );
 
     const python = spawn("python", [scriptPath]);
