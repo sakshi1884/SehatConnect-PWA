@@ -273,31 +273,14 @@ const ModelComparison = () => {
 
               <div className="metric">
 
-                <Clock3 size={18} />
-
-                <span>
-
-                  Execution
-
-                </span>
-
-                <strong>
-
-                  {data.execution_time}s
-
-                </strong>
-
-              </div>
-              <div className="metric">
-
-  <ShieldCheck size={18} />
+  <Clock3 size={18} />
 
   <span>
-    Confidence
+    Execution
   </span>
 
   <strong>
-    {(data.probability * 100).toFixed(2)}%
+    {data.execution_time}s
   </strong>
 
 </div>
@@ -307,7 +290,39 @@ const ModelComparison = () => {
   <div
     className="progress-fill f1-fill"
     style={{
-      width: `${data.probability * 100}%`
+      width: `${Math.min(
+        Number(data.execution_time || 0) * 20,
+        100
+      )}%`
+    }}
+  ></div>
+
+</div>
+
+<div className="metric">
+
+  <ShieldCheck size={18} />
+
+  <span>
+    Confidence
+  </span>
+
+  <strong>
+    {(
+      Number(data.probability || 0) * 100
+    ).toFixed(2)}%
+  </strong>
+
+</div>
+
+<div className="progress-bar">
+
+  <div
+    className="progress-fill f1-fill"
+    style={{
+      width: `${
+        Number(data.probability || 0) * 100
+      }%`
     }}
   ></div>
 
