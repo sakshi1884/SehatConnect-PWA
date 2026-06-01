@@ -291,7 +291,7 @@ const ModelComparison = () => {
     className="progress-fill f1-fill"
     style={{
       width: `${Math.min(
-        Number(data.execution_time || 0) * 20,
+        Number(data.execution_time || 0) * 1000,
         100
       )}%`
     }}
