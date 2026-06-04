@@ -469,6 +469,7 @@ const ModelComparison = () => {
               <Bar
                 dataKey="accuracy"
                 fill="url(#accuracyGradient)"
+                name="Accuracy %"
                 radius={[12, 12, 0, 0]}
               />
 
@@ -535,7 +536,8 @@ const ModelComparison = () => {
 
               </Pie>
 
-              <Tooltip />
+              <Tooltip 
+              formatter={(value) => value.toFixed(4)}/>
 
               <Legend />
 
