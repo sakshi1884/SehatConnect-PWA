@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
+  
   Tooltip,
   ResponsiveContainer,
   PieChart,
@@ -124,22 +121,6 @@ const ModelComparison = () => {
 
   }
 
-  const chartData =
-  Object.entries(results).map(
-    ([model, data]) => ({
-      model,
-      accuracy: data.accuracy,
-      f1: data.f1_score,
-      probability:
-        Number(data.probability) * 100
-    })
-  );
-
-  const minValue = Math.min(
-  ...chartData.map((d) =>
-    Math.min(d.accuracy, d.f1)
-  )
-);
 
   const pieData = [
     {
@@ -371,113 +352,7 @@ const ModelComparison = () => {
 
       <div className="charts-grid">
 
-        <div className="chart-container">
-
-          <div className="chart-header">
-
-            <h2>
-
-              Accuracy & F1 Comparison
-
-            </h2>
-
-          </div>
-
-          <ResponsiveContainer
-            width="100%"
-            height={380}
-          >
-
-            <BarChart
-              data={chartData}
-              barGap={10}
-            >
-
-              <defs>
-
-                <linearGradient
-                  id="accuracyGradient"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-
-                  <stop
-                    offset="0%"
-                    stopColor="#6C63FF"
-                  />
-
-                  <stop
-                    offset="100%"
-                    stopColor="#4D96FF"
-                  />
-
-                </linearGradient>
-
-                <linearGradient
-                  id="f1Gradient"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-
-                  <stop
-                    offset="0%"
-                    stopColor="#00C9A7"
-                  />
-
-                  <stop
-                    offset="100%"
-                    stopColor="#00E4FF"
-                  />
-
-                </linearGradient>
-
-              </defs>
-
-              <CartesianGrid
-                strokeDasharray="4 4"
-                vertical={false}
-              />
-
-              
-
-              <Tooltip
-                contentStyle={{
-                  borderRadius: "12px",
-                  border: "none",
-                  boxShadow:
-                    "0 8px 20px rgba(7, 7, 7, 0.12)"
-                }}
-              />
-
-              <Legend /> 
-
-              <Bar
-                dataKey="accuracy"
-                fill="url(#accuracyGradient)"
-                name="Accuracy %"
-                radius={[12, 12, 0, 0]}
-              />
-
-              <Bar
-                dataKey="f1"
-                fill="url(#f1Gradient)"
-                radius={[12, 12, 0, 0]}
-              />
-              <Bar
-  dataKey="probability"
-  fill="#FFB547"
-  radius={[12, 12, 0, 0]}
-/>
-
-            </BarChart>
-
-          </ResponsiveContainer>
-
-        </div>
+  
 
         <div className="chart-container">
 
