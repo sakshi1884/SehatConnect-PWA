@@ -1,42 +1,51 @@
 {
     "Logistic Regression": {
-        "accuracy": 81.73,
-        "f1_score": 81.74,
-        "execution_time": 0.2732
+        "accuracy": 81.94,
+        "precision":82.03,
+        "recall":81.94,
+        "f1_score": 81.95,
+        "execution_time": 0.2054
     },
     "Decision Tree": {
-        "accuracy": 100.0,
-        "f1_score": 100.0,
+        "accuracy": 99.90,
+        "precision":99.90,
+        "recall":99.90,
+        "f1_score": 99.90,
         "execution_time": 0.8137
     },
     "Random Forest": {
-        "accuracy": 97.01,
-        "f1_score": 97.01,
+        "accuracy": 99.90,
+        "precision":99.90,
+        "recall":99.90,
+        "f1_score": 99.90,
         "execution_time": 26.1191
     },
     "SVM": {
-        "accuracy": 96.85,
-        "f1_score": 96.85,
+        "accuracy": 95.05,
+        "precision":95.05,
+        "recall":95.05,
+        "f1_score": 95.05,
         "execution_time": 3949.5826
     },
     "LightGBM": {
-        "accuracy": 99.8,
-        "f1_score": 99.8,
+        "accuracy": 99.81,
+        "precision":99.81,
+        "recall":99.81,
+        "f1_score": 99.81,
         "execution_time": 2.793
     },
     "XGBoost": {
-        "accuracy": 98.86,
-        "f1_score": 98.86,
+        "accuracy": 99.63,
+        "precision":99.63,
+        "recall":99.63,
+        "f1_score": 989.63,
         "execution_time": 2.8017
     },
     "CatBoost": {
-        "accuracy": 98.87,
-        "f1_score": 98.87,
+        "accuracy": 98.81,
+        "precision":99.81,
+        "recall":99.81,
+        "f1_score": 99.81,
         "execution_time": 15.358
-    },
-    "FFNN": {
-        "accuracy": 99.73,
-        "f1_score": 99.73,
-        "execution_time": 25.4507
     }
 }
