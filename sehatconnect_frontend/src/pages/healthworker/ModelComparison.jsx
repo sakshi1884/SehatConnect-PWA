@@ -442,18 +442,7 @@ const ModelComparison = () => {
                 vertical={false}
               />
 
-              <XAxis
-                dataKey="model"
-                tick={{
-                  fill: "#555"
-                }}
-              />
-
-              <YAxis
-              domain={[95, 100]}
-  ticks={[ 95, 96,97, 98,99, 100]}
-    
-/>
+              
 
               <Tooltip
                 contentStyle={{
