@@ -135,6 +135,12 @@ const ModelComparison = () => {
     })
   );
 
+  const minValue = Math.min(
+  ...chartData.map((d) =>
+    Math.min(d.accuracy, d.f1)
+  )
+);
+
   const pieData = [
     {
       name: "High Risk",
@@ -443,7 +449,11 @@ const ModelComparison = () => {
                 }}
               />
 
-              <YAxis />
+              <YAxis
+              domain={[
+    Math.max(0, minValue - 0.02),
+    1
+  ]} />
 
               <Tooltip
                 contentStyle={{
