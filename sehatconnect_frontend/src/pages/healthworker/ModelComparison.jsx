@@ -450,21 +450,21 @@ const ModelComparison = () => {
               />
 
               <YAxis
-              domain={[
-    Math.max(0, minValue - 0.02),
-    1
-  ]} />
+              domain={[95, 100]}
+  ticks={[ 95, 96,97, 98,99, 100]}
+    
+/>
 
               <Tooltip
                 contentStyle={{
                   borderRadius: "12px",
                   border: "none",
                   boxShadow:
-                    "0 8px 20px rgba(0,0,0,0.12)"
+                    "0 8px 20px rgba(7, 7, 7, 0.12)"
                 }}
               />
 
-              <Legend />
+              <Legend /> 
 
               <Bar
                 dataKey="accuracy"
